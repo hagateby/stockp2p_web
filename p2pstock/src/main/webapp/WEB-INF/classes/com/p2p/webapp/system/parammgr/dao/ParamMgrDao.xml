@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.system.parammgr.dao.ParamMgrDao">
+
+	<select id="getParamInfo"  resultType="SystemParam">
+		SELECT 
+			PARA_ID,PARA_CODE,PARA_NAME,PARA_VALUES,PARA_TYPE,PARA_LENGTH,REMARK,CREATE_DATE,UPDATE_DATE
+		FROM 
+			T_SYSTEM_PARA
+	</select>
+	
+	<select id="getMsgInfo"  resultType="MsgInfo">
+		SELECT 
+			MSG_ID,MSG_CODE,MSG_TYP,MSG_COMMENT
+		FROM 
+			T_MSG_INFO
+	</select>
+	
+</mapper>

@@ -1,0 +1,189 @@
+/** 用户基本信息表 **/
+DROP TABLE T_USER;
+CREATE TABLE T_USER
+(
+-- 用户ID唯一
+USER_ID INT NOT NULL,
+/** 用户代码 **/
+USER_CDE VARCHAR(40),
+/** 用户状态 **/
+USER_STATUS VARCHAR(2),
+/** 用户类型 **/
+USER_TYPE VARCHAR(2),
+/** 用户姓名 **/
+USER_NAME VARCHAR(40),
+/** 用户手机号 **/
+PHONE VARCHAR(40),
+/** 用户邮箱 **/
+MAIL VARCHAR(40),
+/** 证件类型 **/
+CERTIF_TYPE VARCHAR(40),
+/** 证件号码 **/
+CERTIF_NO VARCHAR(40),
+/** 创建时间 **/
+CREATE_DATE VARCHAR(40),
+/** 更新时间 **/
+UPDATE_DATE VARCHAR(40),
+PRIMARY KEY(USER_ID)
+);
+/** 用户操作日志表 **/
+DROP TABLE T_OPT_LOG;
+CREATE TABLE T_OPT_LOG
+(
+-- ID唯一
+CITY_ID INT NOT NULL AUTO_INCREMENT,
+/** 用户ID **/
+USER_ID INT,
+/** 登录状态 **/
+OPT_STATUS VARCHAR(20),
+/** 登录时间 **/
+OPT_DATE VARCHAR(20),
+/** 登录类型 **/
+OPT_TYPE VARCHAR(10),
+/** 登录IP **/
+OPT_IP VARCHAR(30),
+/** 创建时间 **/
+CREATE_DATE VARCHAR(20),
+/** 更新时间 **/
+UPDATE_DATE VARCHAR(20),
+PRIMARY KEY(CITY_ID)
+);
+
+/** 用户安全控制表 **/
+DROP TABLE T_SECTY_CTL;
+CREATE TABLE T_SECTY_CTL
+(
+-- ID唯一
+CITY_ID INT NOT NULL AUTO_INCREMENT,
+/** 用户ID **/
+USER_ID INT,
+/** 登录密码 **/
+LOGIN_PWD VARCHAR(50),
+/** 支付密码 **/
+TRAN_PWD VARCHAR(50),
+/** 用户状态 **/
+USER_STATUS VARCHAR(2),
+/** 登录失败次数 **/
+ERR_COUNT INT,
+/** 安全级别 **/
+SECTY_LEVEL INT,
+/** 创建时间 **/
+CREATE_DATE VARCHAR(20),
+/** 最后更新时间 **/
+UPDATE_DATE VARCHAR(20),
+PRIMARY KEY(CITY_ID)
+);
+/** 个人账户总表 **/
+DROP TABLE T_ACCOUNT;
+CREATE TABLE T_ACCOUNT
+(
+-- 账户 一
+ACCOUT_NO VARCHAR(20) NOT NULL,
+/** 用户ID **/
+USER_ID INT,
+/** 账户类型 **/
+ACC_TYPE VARCHAR(50),
+/** 账户状态 **/
+ACC_STATUS VARCHAR(50),
+/** 账户余额 **/
+ACC_BALANCE VARCHAR(2),
+/** 账户冻结金额 **/
+ACC_FREEZE DOUBLE (20,2),
+/** 账户可用金额 **/
+ACC_ENCHASH DOUBLE (20,2),
+/** 创建时间 **/
+CREATE_DATE VARCHAR(20),
+/** 最后更新时间 **/
+UPDATE_DATE VARCHAR(20),
+PRIMARY KEY(ACCOUT_NO)
+);
+
+/** 个人账户明细表 **/
+DROP TABLE T_ACCOUNT_DETAIL;
+CREATE TABLE T_ACCOUNT_DETAIL
+(
+-- ID --
+CITY_ID INT NOT NULL AUTO_INCREMENT,
+-- 账户 一
+ACCOUT_NO VARCHAR(20) NOT NULL,
+/** 操作类型**/
+OPT_TYP VARCHAR(2),
+/** 收付方式 **/
+PAYMENT_TYPE VARCHAR(50),
+/** 银行流水号 **/
+BANK_SEQ VARCHAR(2),
+/** 投资产品ID **/
+INVEST_PRDOUCT_ID DOUBLE (20,2),
+/** 金额 **/
+AMOUNT DOUBLE (20,2),
+/** 创建时间 **/
+CREATE_DATE VARCHAR(20),
+/** 最后更新时间 **/
+UPDATE_DATE VARCHAR(20),
+PRIMARY KEY(CITY_ID)
+);
+
+/** 系统参数表 **/
+DROP TABLE T_SYSTEM_PARA;
+CREATE TABLE T_SYSTEM_PARA
+(
+-- ID --
+PARA_ID INT NOT NULL AUTO_INCREMENT,
+-- 参数代码 一
+PARA_CODE VARCHAR(20) NOT NULL,
+/** 参数名称**/
+PARA_NAME VARCHAR(50),
+/** 参数值 **/
+PARA_VALUES VARCHAR(20),
+/** 参数类型 **/
+PARA_TYPE VARCHAR(10),
+/** 参数长度 **/
+PARA_LENGTH INT,
+/** 说明 **/
+REMARK VARCHAR(128),
+/** 创建时间 **/
+CREATE_DATE VARCHAR(20),
+/** 最后更新时间 **/
+UPDATE_DATE VARCHAR(20),
+PRIMARY KEY(PARA_ID)
+);
+/** 用户短信验证码表 **/
+DROP TABLE T_CPT_MSG;
+CREATE TABLE T_CPT_MSG
+(
+-- ID --
+CPT_ID INT NOT NULL AUTO_INCREMENT,
+-- ID --
+MSG_ID INT NOT NULL,
+-- 手机 一
+PHONE_NO VARCHAR(20) NOT NULL,
+/** 验证码**/
+CPT_NO VARCHAR(20),
+/** 发送时间 **/
+SEND_TIME VARCHAR(20),
+/** 有效时间 **/
+ACTIVE_TIME VARCHAR(20),
+PRIMARY KEY(CPT_ID)
+);
+/** 短信日志表 **/
+DROP TABLE T_MSG_LOG;
+CREATE TABLE T_MSG_LOG
+(
+-- ID --
+MSG_ID INT NOT NULL,
+-- 短信业务类型 一
+MSG_BIZTYP VARCHAR(20) NOT NULL,
+/** 短信发送方式 0 上行 1下行**/
+MSG_TYP VARCHAR(20),
+/** 发送手机号码 **/
+MSG_PHONENO VARCHAR(30),
+/** 短信内容 **/
+MSG_VALUE VARCHAR(500),
+/** 发送时间 **/
+SEND_TIME VARCHAR(20),
+PRIMARY KEY(MSG_ID)
+);
+
+
+
+

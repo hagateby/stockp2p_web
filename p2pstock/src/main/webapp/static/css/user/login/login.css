@@ -1,0 +1,9 @@
+.valloginerr{
+	padding-right:10px;
+	display:none;
+	text-align:left;
+	font: 14px/150% arial,helvetica,宋体,sans-serif;
+	color:red;
+	background-color: #EED5D2;
+	font-weight:100;
+}

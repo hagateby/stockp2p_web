@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.user.regist.dao.RegistDao">
+
+	<!-- 根据手机号码查询用户 -->
+	<select id="queryUserByPhone" parameterType="string" resultType="User">
+		SELECT 
+			USER_CDE,USER_STATUS,USER_TYPE,USER_NAME,PHONE,MAIL,CERTIF_TYPE,CERTIF_NO,CREATE_DATE,UPDATE_DATE
+		FROM
+			T_USER
+		WHERE
+			PHONE = #{phoneno}
+	</select>
+	<!-- 获取短信ID -->
+	<select id="queryUserId"  resultType="string">
+		SELECT IFNULL(MAX(USER_ID)+1,0) FROM T_USER;
+	</select>
+	<!-- 注册增加新用户 -->
+	<insert id="insertUser" parameterType="User">
+		INSERT
+		INTO
+			 T_USER(USER_ID,USER_CDE,USER_STATUS,USER_TYPE,USER_NAME,PHONE,MAIL,CERTIF_TYPE,CERTIF_NO,CREATE_DATE,UPDATE_DATE)
+		VALUES
+			(#{user_id},#{user_code},#{user_status},#{user_type},#{user_name},#{phone},#{mail},#{certif_type},#{certif_no},NOW(),NOW())
+	</insert>
+	<!-- 增加用户安全控制信息  -->
+	<insert id="insertUserCtl" parameterType="User">
+		INSERT
+		INTO
+			 T_SECTY_CTL(USER_ID,LOGIN_PWD,TRAN_PWD,USER_STATUS,ERR_COUNT,SECTY_LEVEL,CREATE_DATE,UPDATE_DATE)
+		VALUES
+			(#{user_id},#{login_pwd},#{tran_pwd},#{user_status},#{err_count},#{secty_level},NOW(),NOW())
+	</insert>
+	<!-- 新增用户账户 -->
+	<insert id="insertUserAccount" parameterType="User">
+		INSERT
+		INTO
+			 T_ACCOUNT(USER_ID,ACC_TYPE,ACC_STATUS,ACC_BALANCE,ACC_FREEZE,ACC_ENCHASH,CREATE_DATE,UPDATE_DATE)
+		VALUES
+			(#{user_id},#{acc_type},#{acc_status},#{acc_balance},#{acc_freeze},#{acc_enchash},NOW(),NOW())
+	</insert>
+	<!-- 新增用户权限 -->
+	<insert id="insertUserPrvg" parameterType="Map">
+		INSERT
+		INTO
+			 T_USER_PRVG(USER_ID,ROLE_CODE)
+		VALUES
+			(#{user_id},#{role_code})
+	</insert>
+</mapper>

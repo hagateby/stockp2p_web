@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.user.index.dao.IndexDao">
+
+	<!-- 查询用户总收益、总交易额 -->
+	<select id="queryUserAllProfit" resultType="IndexCount" parameterType="string">
+		SELECT 
+			SUM(USER_INVEST_PROFIT) AS USER_INVEST_PROFIT,SUM(PRODUCT_BUYCOUNT_ALL) AS PRODUCT_BUYCOUNT_ALL
+		FROM
+			T_PRODUCT_SETTLEDETAIL
+	</select>
+	<!-- 查询累计交易次数 满足投资成功或者结算完成的-->
+	<select id="queryUserAllTrans" parameterType="string" resultType="string">
+		SELECT 
+			COUNT(USER_INVEST_ID) AS TRANCOUNT
+		FROM
+			T_INVEST
+	</select>
+	<!-- 查询最新产品5条 -->
+	<select id="queryNewProduct" resultType="InvestProduct">
+		SELECT
+			STR_TO_DATE(CREATE_DATE,'%Y-%m-%d') AS CREATE_DATE,INVT_PRODUCT_NAME,
+			STR_TO_DATE(START_DATE,'%Y-%m-%d') AS START_DATE,
+			STR_TO_DATE(END_DATE,'%Y-%m-%d') AS END_DATE
+		FROM 
+			T_INVEST_PRDOUCT 
+		ORDER BY  CREATE_DATE DESC
+		LIMIT 0,5
+	</select>
+	<!-- 查询最新产品5条 -->
+	<select id="queryNewInvest" resultType="Invest">
+		SELECT 
+			T1.USER_ID,T1.ACOUNT_PRTFEEALL,T2.PHONE AS USER_NAME,STR_TO_DATE(T1.CREATE_DATE,'%Y-%m-%d') AS CREATE_DATE,T3.INVT_PRODUCT_NAME AS INVEST_PRDOUCT_NAME
+		FROM 
+			T_INVEST T1 
+			LEFT JOIN T_USER T2 ON T1.USER_ID =T2.USER_ID
+			LEFT JOIN T_INVEST_PRDOUCT T3 ON T1.INVEST_PRDOUCT_ID = T3.INVT_PRODUCT_ID
+		ORDER BY T1.CREATE_DATE DESC
+		LIMIT 0,5
+	</select>
+</mapper>

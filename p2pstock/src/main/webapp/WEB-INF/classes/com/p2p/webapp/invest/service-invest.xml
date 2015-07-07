@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<!-- 我要投资 -->
+	<!-- action -->
+	<bean id="investMgrAction" class="com.p2p.webapp.invest.investmgr.action.InvestMgrAction" scope="prototype">
+		<property name="investMgrService" ref="investMgrService" />
+		<property name="issueMgrService" ref="issueMgrService" />
+	</bean>
+	<!-- service -->
+	<bean id="investMgrService" class="com.p2p.webapp.invest.investmgr.service.impl.InvestMgrServiceImpl">
+		<property name="investMgrDao" ref="investMgrDao" />
+		<property name="productMgrDao" ref="productMgrDao" />
+		<property name="issueMgrDao" ref="issueMgrDao" />
+		<property name="fundMgrDao" ref="fundMgrDao" />
+	</bean>
+	<!-- Dao-->
+	<bean id="investMgrDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.invest.investmgr.dao.InvestMgrDao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- 投资配号查询 -->
+	<!-- action -->
+	<bean id="investNoMgrAction" class="com.p2p.webapp.invest.investnomgr.action.InvestNoMgrAction" scope="prototype">
+		<property name="investNoMgrService" ref="investNoMgrService" />
+	</bean>
+	<bean id="investNoMgrService" class="com.p2p.webapp.invest.investnomgr.service.impl.InvestNoMgrServiceImpl">
+		<property name="investNoMgrDao" ref="investNoMgrDao" />
+	</bean>
+	<!-- Dao-->
+	<bean id="investNoMgrDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.invest.investnomgr.dao.InvestNoMgrDao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+</beans>

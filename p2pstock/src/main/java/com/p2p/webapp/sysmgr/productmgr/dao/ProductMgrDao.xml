@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.sysmgr.productmgr.dao.ProductMgrDao">
+	
+	<!-- 查询最大基础标的id -->
+	<select id="queryMaxLastSq" resultType="string">
+		SELECT LAST_INSERT_ID() AS ID;
+	</select>
+	<!-- 增加基础投资项目表 -->
+	<insert id="insertProductStock" parameterType="Map">
+		INSERT INTO
+			T_BASIC_PRODUCT_STOCK
+			(BASIC_PRODUCT_ID,INVEST_product_id,SALES_CITY,PRICE,START_DATE,END_DATE,LOT_DATE,UP_LIMIT,LOW_LIMIT,CREATE_DATE,UPDATE_DATE,RESULT_FLAG,FUNDFREE_DATE,LOT_RATE,APPLY_CODE)
+	 	VALUES
+	 		(#{basic_product_id},#{invest_product_id},#{sales_city},#{price},#{start_date},#{end_date},#{lot_date},#{up_limit},#{low_limit},NOW(),NOW(),'0',#{fundfree_date},#{lot_rate},#{apply_code})
+	</insert>
+	<!-- 基础基础标的表 -->
+	<insert id="insertBasicProduct" parameterType="Map">
+		INSERT INTO
+			T_BASIC_PRODUCT
+			(BASIC_PRODUCT_NAME,BASIC_PRODUCT_TYPE,BASIC_INVEST_TYPE,STARTER_BAIL,INVESTER_BAIL,LAUNCHER_ACCRUEDCHARGES_TYPE,LAUNCHER_ACCRUEDCHARGES_AMOUNT,USER_ACCRUEDCHARGES_TYPE,USER_ACCRUEDCHARGES_AMOUNT,INPUT_WEB,CREATE_DATE,UPDATE_DATE)
+	 	VALUES
+	 		(#{basic_product_name},#{basic_product_type},#{basic_invest_type},#{starter_bail},#{invester_bail},#{launcher_accruedcharges_type},#{launcher_accruedcharges_amount},#{user_accruedcharges_type},#{user__accruedcharges_amount},#{input_web},NOW(),NOW())
+	</insert>
+	<!-- 查询北京体彩产品列表 -->
+	<select id="selectBasicProductlist" parameterType="Map" resultType="BaseProduct">
+			SELECT T1.BASIC_PRODUCT_ID,T1.BASIC_PRODUCT_NAME,T2.SALES_CITY,T2.INVEST_product_id,T2.START_DATE,T2.END_DATE,T2.LOT_DATE,T1.BASIC_PRODUCT_TYPE,
+				(SELECT PARA_NAME FROM T_SYSTEM_PARA WHERE PARA_VALUES = T1.BASIC_PRODUCT_TYPE AND PARA_TYPE = 'PROTYP') AS BASIC_PRODUCT_TYPENAME,
+				T1.LAUNCHER_ACCRUEDCHARGES_TYPE,T1.LAUNCHER_ACCRUEDCHARGES_AMOUNT,T3.BASIC_PRODUCT_ID AS FLAG
+			FROM    T_BASIC_PRODUCT T1
+				LEFT JOIN T_BASIC_PRODUCT_STOCK T2 ON T1.BASIC_PRODUCT_ID = T2.BASIC_PRODUCT_ID
+				LEFT JOIN (SELECT DISTINCT BASIC_PRODUCT_ID FROM  T_INVEST_BASE)T3 ON T1.BASIC_PRODUCT_ID = T3.BASIC_PRODUCT_ID
+			WHERE T1.BASIC_PRODUCT_ID = T2.BASIC_PRODUCT_ID
+			<if test="basic_product_name != null and basic_product_name != ''">
+				AND BASIC_PRODUCT_NAME LIKE #{basic_product_namelike}
+			</if>
+			<if test="invest_product_id != null and invest_product_id != ''">
+				AND INVEST_product_id = #{invest_product_id}
+			</if>
+			<if test="lot_date != null and lot_date != ''">
+				AND LOT_DATE = #{lot_date}
+			</if>
+			<if test="sales_city != null and sales_city != ''">
+				AND SALES_CITY = #{sales_city}
+			</if>			
+			<if test="start_date != null and start_date != ''">
+				AND STR_TO_DATE(START_DATE,'%Y-%m-%d')  &gt;= #{start_date}
+			</if>
+			<if test="end_date != null and end_date != ''">
+				AND STR_TO_DATE(END_DATE,'%Y-%m-%d')   &lt;= #{end_date}
+			</if>
+			ORDER BY T1.UPDATE_DATE DESC
+	</select>
+	<!-- 根据基础标的ID查询详细信息 -->
+	<select id="selectBasicProductById" parameterType="string" resultType="BaseProduct">
+			SELECT T1.BASIC_PRODUCT_ID,T1.BASIC_PRODUCT_NAME,T1.BASIC_PRODUCT_TYPE,T1.BASIC_INVEST_TYPE,T1.STARTER_BAIL,T1.INVESTER_BAIL,T1.LAUNCHER_ACCRUEDCHARGES_TYPE,
+				   T1.LAUNCHER_ACCRUEDCHARGES_AMOUNT,T1.USER_ACCRUEDCHARGES_TYPE,T1.USER_ACCRUEDCHARGES_AMOUNT,T1.INPUT_WEB,T2.APPLY_CODE,
+				   T2.BASIC_PRODUCT_STOCK_ID,T2.INVEST_product_id,T2.SALES_CITY,T2.PRICE,T2.START_DATE,T2.END_DATE,
+				   T2.LOT_DATE,T2.UP_LIMIT,T2.LOW_LIMIT,T2.FUNDFREE_DATE,T2.LOT_RATE
+			FROM    T_BASIC_PRODUCT T1,T_BASIC_PRODUCT_STOCK T2
+			WHERE T1.BASIC_PRODUCT_ID = T2.BASIC_PRODUCT_ID AND T1.BASIC_PRODUCT_ID = #{basic_product_id}
+
+	</select>
+	<!-- 根据基础标的ID查询关联产品信息 -->
+	<select id="selectBIProductById" parameterType="string" resultType="BaseProduct">
+			SELECT 
+				T1.BASIC_PRODUCT_ID,T3.INVT_PRODUCT_STATUS
+			FROM 
+				T_BASIC_PRODUCT T1 LEFT JOIN T_INVEST_BASE T2 ON T1.BASIC_PRODUCT_ID = T2.BASIC_PRODUCT_ID
+				LEFT JOIN T_INVEST_PRDOUCT T3 ON T2.INVT_PRODUCT_ID =T3.INVT_PRODUCT_ID
+			WHERE T1.BASIC_PRODUCT_ID = #{basic_product_id}
+
+	</select>
+	
+	<!-- 根据基础标的ID修改基础信息 -->
+	<update id="updateBasicProductById" parameterType="Map">
+			UPDATE 
+				T_BASIC_PRODUCT
+			SET
+				BASIC_PRODUCT_NAME = #{basic_product_name},BASIC_INVEST_TYPE= #{basic_invest_type},STARTER_BAIL= #{starter_bail},
+				INVESTER_BAIL= #{invester_bail},LAUNCHER_ACCRUEDCHARGES_TYPE= #{launcher_accruedcharges_type},
+				LAUNCHER_ACCRUEDCHARGES_AMOUNT = #{launcher_accruedcharges_amount},USER_ACCRUEDCHARGES_TYPE= #{user_accruedcharges_type},
+				USER_ACCRUEDCHARGES_AMOUNT = #{user_accruedcharges_amount},INPUT_WEB = #{input_web},UPDATE_DATE = NOW()
+			WHERE 
+				BASIC_PRODUCT_ID = #{basic_product_id}
+	</update>
+	<!-- 根据基础标的ID修改基础信息 -->
+	<update id="updateBasicProductStockById" parameterType="Map">
+			UPDATE
+				T_BASIC_PRODUCT_STOCK
+			SET
+				INVEST_product_id = #{invest_product_id},SALES_CITY= #{sales_city},PRICE= #{price},
+				START_DATE= #{start_date},END_DATE= #{end_date},
+				UP_LIMIT = #{up_limit},LOW_LIMIT= #{low_limit},
+				APPLY_CODE = #{apply_code},
+				LOT_DATE = #{lot_date},UPDATE_DATE = NOW(),
+				LOT_RATE = #{lot_rate}
+			WHERE 
+				BASIC_PRODUCT_ID = #{basic_product_id}
+	</update>
+	<!-- 删除基础标的信息 -->
+	<delete id="delBasicProductById" parameterType="string">
+			DELETE
+			FROM
+				T_BASIC_PRODUCT
+			WHERE 
+				BASIC_PRODUCT_ID = #{basic_product_id}
+	</delete>
+	<!-- 删除基础标的信息 -->
+	<delete id="delBasicProductStockById" parameterType="string">
+			DELETE
+			FROM
+				T_BASIC_PRODUCT_STOCK
+			WHERE 
+				BASIC_PRODUCT_ID = #{basic_product_id}
+	</delete>
+	
+	
+</mapper>

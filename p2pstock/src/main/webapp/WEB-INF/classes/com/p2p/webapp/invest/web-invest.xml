@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="struts-invest"  extends="struts-pub" namespace="/invest">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="investquery">/WEB-INF/views/invest/investmgr/investquery.jsp</result>
+			<result name="issuemore">/WEB-INF/views/invest/investmgr/investinfo.jsp</result>
+			<result name="investok">/WEB-INF/views/invest/investmgr/investsucess.jsp</result>
+			<result name="queryinvestnook">/WEB-INF/views/invest/investnomgr/investnoquery.jsp</result>
+			<result name="queryinvestnoinitok">/WEB-INF/views/invest/investnomgr/invtprtquery.jsp</result>
+			
+			<result name="editInitOK">/WEB-INF/views/invest/investmgr/invesedit.jsp</result>
+			<result name="investerr">/WEB-INF/views/common/error/bizerr.jsp</result>
+			
+		</action>
+	</package>
+	<package name="struts-investnomgr"  extends="struts-pub" namespace="/investnomgr">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="issuemore">/WEB-INF/views/sysmgr/issuemgr/investproductmoreinfo.jsp</result>
+		</action>
+	</package>
+</struts>

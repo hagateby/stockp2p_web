@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="struts-demo"  extends="struts-pub" namespace="/demo">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="success">/WEB-INF/views/user/demo/demo.jsp</result>
+		</action>
+	</package>
+	<package name="struts-init"  extends="struts-pub" namespace="/init">
+		<action name="index" class="indexAction" method="init">   
+			<result name="success">/WEB-INF/views/common/main/pubmain.jsp</result>
+		</action>
+	</package>
+    <package name="struts-regist"  extends="struts-pub" namespace="/regist">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="registinit">/WEB-INF/views/user/regist/registinit.jsp</result>
+			<result name="registok">/WEB-INF/views/user/regist/registok.jsp</result>
+			<result name="registerr">/WEB-INF/views/common/error/bizerr.jsp</result>
+		</action>
+	</package>
+    <package name="struts-login"  extends="struts-pub" namespace="/login">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="logininit">/WEB-INF/views/user/login/logininit.jsp</result>
+			<result name="findpwdinit">/WEB-INF/views/user/login/findpwdinit.jsp</result>
+			<result name="loginok" type="redirect">/usercenter/userInit_userCenterAction.action?msgCode=${msgCode}</result>
+			<result name="loginerr">/WEB-INF/views/user/login/logininit.jsp</result>
+			<result name="logout">/WEB-INF/views/common/main/pubmain.jsp</result>
+			<result name="findpwdERR">/WEB-INF/views/user/login/findpwdinit.jsp</result>
+			<result name="findpwdOK">/WEB-INF/views/user/login/setnewpwd.jsp</result>
+			<result name="setnewpwdOK" type="redirect">/usercenter/userInit_userCenterAction.action?msgCode=${msgCode}</result>
+		</action>
+	</package>
+    <package name="struts-usercenter"  extends="struts-pub" namespace="/usercenter">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="userininit">/WEB-INF/views/user/usercenter/usermain.jsp</result>
+			<result name="useredit">/WEB-INF/views/user/usercenter/userinfoedit.jsp</result>
+			<result name="saveok">/WEB-INF/views/user/usercenter/userinfoedit.jsp</result>
+			<result name="bankinit">/WEB-INF/views/user/usercenter/bankinfoedit.jsp</result>
+			<result name="addbankok" type="redirect">/usercenter/bankEdit_userCenterAction.action?msgCode=${msgCode}</result>
+			<result name="editbankok" type="redirect">/usercenter/bankEdit_userCenterAction.action?msgCode=${msgCode}</result>
+			<result name="delbankok" type="redirect">/usercenter/bankEdit_userCenterAction.action?msgCode=${msgCode}</result>
+			<result name="editpwdok">/WEB-INF/views/user/usercenter/loginpwdedit.jsp</result>
+			<result name="edittranpwdok">/WEB-INF/views/user/usercenter/tranpwdedit.jsp</result>
+			<result name="edittranpwdsubok" type="redirect">/usercenter/tranPwdEdit_userCenterAction.action?msgCode=${msgCode}</result>
+			<result name="queryInvestok">/WEB-INF/views/user/usercenter/investquery.jsp</result>
+			<result name="queryInvestMore">/WEB-INF/views/user/usercenter/investmoreinfo.jsp</result>
+			<result name="setDefaultBankok" type="redirect">/usercenter/bankEdit_userCenterAction.action?msgCode=${msgCode}</result>
+			<result name="editInitOK">/WEB-INF/views/invest/investmgr/invesedit.jsp</result>
+			<result name="editInvestOK" type="redirect">/usercenter/queryInvest_investMgrAction.action?msgCode=${msgCode}</result>
+			<result name="bankiniterror">/WEB-INF/views/user/usercenter/bankediterror.jsp</result>
+			
+		</action>
+	</package>
+	<package name="struts-fundmgr"  extends="struts-pub" namespace="/fundmgr">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="queryTranInfook">/WEB-INF/views/user/fundmgr/fundquery.jsp</result>
+		</action>
+	</package>
+	
+</struts>

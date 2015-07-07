@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="struts-sysmgr"  extends="struts-pub" namespace="/sysmgr">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="productmgrinit">/WEB-INF/views/sysmgr/productmgr/productmt.jsp</result>
+			<result name="productaddinit">/WEB-INF/views/sysmgr/productmgr/productadd.jsp</result>
+			<result name="productaddok"  type="redirect">/sysmgr/productaddInit_productMgrAction.action?msgCode=${msgCode}</result>
+			<result name="productmoreinfo">/WEB-INF/views/sysmgr/productmgr/productmoreinfo.jsp</result>
+			<result name="producteditinfo">/WEB-INF/views/sysmgr/productmgr/producteditinfo.jsp</result>
+			<result name="producteditok"  type="redirect">/sysmgr/productmgrInit_productMgrAction.action?msgCode=${msgCode}</result>
+			<result name="productdelok"  type="redirect">/sysmgr/productmgrInit_productMgrAction.action?msgCode=${msgCode}</result>
+			
+			<result name="issueeditinit">/WEB-INF/views/sysmgr/issuemgr/investproducteditinfo.jsp</result>
+			<result name="issuequery">/WEB-INF/views/sysmgr/issuemgr/investproductmt.jsp</result>
+			<result name="issueaddinit">/WEB-INF/views/sysmgr/issuemgr/investproductadd.jsp</result>
+			<result name="issueaddok" type="redirect">/sysmgr/queryIssurInfo_issueMgrAction.action?msgCode=${msgCode}</result>
+			<result name="issuemore">/WEB-INF/views/sysmgr/issuemgr/investproductmoreinfo.jsp</result>
+			<result name="issuedelok"  type="redirect">/sysmgr/queryIssurInfo_issueMgrAction.action?msgCode=${msgCode}</result>
+			<result name="issueeditsub" type="redirect">/sysmgr/queryIssurInfo_issueMgrAction.action?msgCode=${msgCode}</result>
+			<result name="queryInvestok">/WEB-INF/views/invest/investmgr/userinvestquery.jsp</result>
+			<result name="queryInvestMore">/WEB-INF/views/invest/investmgr/userinvestmoreinfo.jsp</result>
+			<result name="queryTranInfook">/WEB-INF/views/sysmgr/fundmgr/fundquery.jsp</result>
+			
+			<result name="auditinvestok" type="redirect">/sysmgr/queryInvest_investMgrAction.action?msgCode=${msgCode}</result>
+		</action>
+	</package>
+    <package name="struts-pubresult"  extends="struts-pub" namespace="/pubresult">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="issuequery">/WEB-INF/views/sysmgr/pubresultmgr/pubresultmt.jsp</result>
+			<result name="issuemore">/WEB-INF/views/sysmgr/pubresultmgr/pubresult.jsp</result>
+			<result name="saveresultok" type="redirect">/pubresult/queryIssurInfo_issueMgrAction.action</result>
+		</action>
+	</package>
+    <package name="struts-settle"  extends="struts-pub" namespace="/settle">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="issuemore">/WEB-INF/views/sysmgr/pubresultmgr/pubsettle.jsp</result>
+			<result name="settleok"  type="redirect">/settle/settleMoreInfo_pubResultMgrAction.action?invt_product_id=${invt_product_id}</result>
+			<result name="settlehisquery">/WEB-INF/views/sysmgr/pubresultmgr/settlethistory.jsp</result>
+			<result name="settlemoreinfo">/WEB-INF/views/sysmgr/pubresultmgr/settlemoreinfo.jsp</result>
+			<result name="settlePayok" type="redirect">>/settle/settleMoreInfo_pubResultMgrAction.action?invt_product_id=${invt_product_id}</result>
+			<result name="querySettlePayok">/WEB-INF/views/sysmgr/pubresultmgr/settletpay.jsp</result>
+		</action>
+	</package>
+	 <package name="struts-settlepay"  extends="struts-pub" namespace="/settlepay">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="settlePayok" type="redirect">>/settle/querySettlePay_pubResultMgrAction.action</result>
+			<result name="querySettlePayok">/WEB-INF/views/sysmgr/pubresultmgr/settletpay.jsp</result>
+		</action>
+	</package>
+	<package name="struts-usrmgr"  extends="struts-pub" namespace="/usrmgr">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="queryUserInfook">/WEB-INF/views/sysmgr/usrmgr/usrmgr.jsp</result>
+			<result name="queryMoreInfoOk">/WEB-INF/views/sysmgr/usrmgr/usrmoreinfo.jsp</result>
+		</action>
+	</package>
+</struts>

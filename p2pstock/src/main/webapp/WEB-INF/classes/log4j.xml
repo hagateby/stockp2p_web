@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+ 
+<log4j:configuration>
+
+<!-- ========================== 方式1:输出到控制台 ========================== -->
+<appender name="COL" class="org.apache.log4j.ConsoleAppender">  
+	<!-- 定义日志输出内容格式 -->
+	<layout class="org.apache.log4j.PatternLayout">
+		<param name="ConversionPattern" value="%-5p %d{ISO8601} %c{1} %t- %m%n"/>
+		<!--  <param name="ConversionPattern" value="%d{ISO8601}|%m%n"/> -->
+	</layout>
+	<!-- 定义字符集 -->
+	<param name="Encoding" value="GBK" />
+	<!-- 定义日志输出级别 -->
+	<filter class="org.apache.log4j.varia.LevelRangeFilter">  
+		<param name="LevelMax" value="ERROR"/>
+		<param name="LevelMin" value="DEBUG"/>
+	</filter>
+</appender>
+<!-- ========================== 方式3:根据大小生成新的文件 ==========================-->
+<appender name="ROLLINGFILE"
+   class="org.apache.log4j.RollingFileAppender">
+   <param name="File" value="/usr/local/logs/p2pstock/systemouttest.log" />
+   <param name="Append" value="true" />
+   <param name="MaxFileSize" value="10MB" />
+   <param name="MaxBackupIndex" value="10" />
+   <param name="Encoding" value="UTF-8" />
+   <layout class="org.apache.log4j.PatternLayout">
+    <param name="ConversionPattern" value="%-5p %d{ISO8601} %c{1} %t- %m%n"/>
+   </layout>
+   <filter class="org.apache.log4j.varia.LevelRangeFilter">
+    <param name="levelMin" value="debug" />
+    <param name="levelMax" value="ERROR" />
+    <param name="AcceptOnMatch" value="true" />
+   </filter>
+  </appender>
+<logger name="com.p2p.webapp">
+	 <level class="org.apache.log4j.Level" value="debug" />
+	 <appender-ref ref="COL" />
+	 <appender-ref ref="ROLLINGFILE" />
+ </logger>
+</log4j:configuration>

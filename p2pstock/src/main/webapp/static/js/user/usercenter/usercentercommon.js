@@ -1,0 +1,148 @@
+﻿//按钮事件
+$(function($){
+	//菜单状态初始化
+	if($('#menusec').val() != ''){
+		var menuary = $('#menusec').val().split('.');
+		$('#'+menuary[0]).css('display','block');
+		$('#'+menuary[1]).css('color','#fff');
+		$('#'+menuary[1]).css('background','#7fd4f3');
+	}
+	//菜单树控制
+	$('#amoney').click(function(){
+		if($('#amoneylist').css('display') == "block"){
+			$('#amoneylist').css('display','none');
+		}else{
+			$('#amoneylist').css('display','block');
+		}
+	});
+	$('#ainvest').click(function(){
+		if($('#ainvestlist').css('display') == "block"){
+			$('#ainvestlist').css('display','none');
+		}else{
+			$('#ainvestlist').css('display','block');
+		}
+	});
+	$('#aaccount').click(function(){
+		if($('#aaccountlist').css('display') == "block"){
+			$('#aaccountlist').css('display','none');
+		}else{
+			$('#aaccountlist').css('display','block');
+		}
+	});
+	//选择1
+	$('#secBtn01').click(function(e){
+		$('#listdiv01').css('display','block');
+		e.stopPropagation();
+	});
+	//选择2
+	$('#secBtn02').click(function(e){
+		$('#listdiv02').css('display','block');
+		e.stopPropagation();
+	});
+	//选择3
+	$('#secBtn03').click(function(e){
+		$('#listdiv03').css('display','block');
+		e.stopPropagation();
+	});
+	//选择4
+	$('#secBtn04').click(function(e){
+		$('#listdiv04').css('display','block');
+		e.stopPropagation();
+	});
+	//选择5
+	$('#secBtn05').click(function(e){
+		$('#listdiv05').css('display','block');
+		e.stopPropagation();
+	});
+	$('#listdiv01').click(function(e){
+		e.stopPropagation();
+	});
+	$('#listdiv02').click(function(e){
+		e.stopPropagation();
+	});
+	$('#listdiv03').click(function(e){
+		e.stopPropagation();
+	});	
+	$('#listdiv04').click(function(e){
+		e.stopPropagation();
+	});	
+	$('#listdiv05').click(function(e){
+		e.stopPropagation();
+	});	
+	//选择产品类型按钮
+	$('#secProductTypBtn').click(function(e){
+		$('#typdiv').css('display','block');
+		e.stopPropagation();
+	});
+	//选择城市
+	$('#secCityBtn').click(function(e){
+		$('#citydiv').css('display','block');
+		e.stopPropagation();
+	});
+	//选择投资类型
+	$('#secInvestTypBtn').click(function(e){
+		$('#investtypdiv').css('display','block');
+		e.stopPropagation();
+	});
+	//选择投资人管理费计提方式
+	$('#secAccChargeTypBtn').click(function(e){
+		$('#accchargetypdiv').css('display','block');
+		e.stopPropagation();
+	});
+	//选择发起人管理费计提方式
+	$('#secLAccChargeTypBtn').click(function(e){
+		$('#laccchargetypdiv').css('display','block');
+		e.stopPropagation();
+	});
+	//选择投资产品状态
+	$('#secPrtStatusBtn').click(function(e){
+		$('#prtstatusdiv').css('display','block');
+		e.stopPropagation();
+	});
+	//点击产品类型以外的位置关闭层
+	$('#typdiv').click(function(e){
+		e.stopPropagation();
+	});
+	//点击城市选择以外的位置关闭层
+	$('#citydiv').click(function(e){
+		e.stopPropagation();
+	});
+	//点击投资类型以外的位置关闭层
+	$('#investtypdiv').click(function(e){
+		e.stopPropagation();
+	});	
+	//点击以外位置关闭层
+	$('#accchargetypdiv').click(function(e){
+		e.stopPropagation();
+	});	
+	//点击以外的位置关闭层
+	$('#laccchargetypdiv').click(function(e){
+		e.stopPropagation();
+	});	
+	//点击以外的位置关闭层
+	$('#prtstatusdiv').click(function(e){
+		e.stopPropagation();
+	});	
+    $(document).click(function() {
+    	$('#typdiv').css('display','none');
+    	$('#citydiv').css('display','none');
+    	$('#investtypdiv').css('display','none');
+    	$('#accchargetypdiv').css('display','none');
+    	$('#laccchargetypdiv').css('display','none');
+    	$('#prtstatusdiv').css('display','none');
+    	$('#listdiv01').css('display','none');
+    	$('#listdiv02').css('display','none');
+    	$('#listdiv03').css('display','none');
+    	$('#listdiv04').css('display','none');
+    	$('#listdiv05').css('display','none');
+    });
+});
+
+
+
+function myinvest(){
+	$('#myinvestForm').submit();
+}
+function mytran(){
+	$('#mytranForm').submit();
+}

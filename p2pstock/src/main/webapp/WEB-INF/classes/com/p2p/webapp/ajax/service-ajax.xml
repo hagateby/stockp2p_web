@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- 发送手机验证码 -->
+	<!-- action -->
+	<bean id="cptAction" class="com.p2p.webapp.ajax.phonecpt.action.CptAction">
+		<property name="cptService" ref="cptService" />
+		<property name="registService" ref="registService" />
+	</bean>
+	<!-- service -->
+	<bean id="cptService" class="com.p2p.webapp.ajax.phonecpt.service.impl.CptServiceImpl">
+		<property name="cptDao" ref="cptDao" />
+	</bean>
+	<!-- Dao-->
+	<bean id="cptDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.ajax.phonecpt.dao.CptDao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	
+</beans>

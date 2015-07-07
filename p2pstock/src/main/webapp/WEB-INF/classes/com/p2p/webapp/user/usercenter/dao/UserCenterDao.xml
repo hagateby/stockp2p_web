@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.user.usercenter.dao.UserCenterDao">
+
+	<!-- 根据用户ID查询用户 -->
+	<select id="queryUserById" parameterType="string" resultType="UserInfo">
+		SELECT 
+			T1.USER_ID,T1.USER_CDE,T1.USER_STATUS,T1.USER_TYPE,T1.USER_NAME,T1.USER_NICKNAME,T1.PHONE,T1.MAIL,
+			T1.CERTIF_TYPE,T1.CERTIF_NO,T1.CREATE_DATE,T1.USER_CREDIT,T1.RECOD_PHONE,T1.UPDATE_DATE,T2.LOGIN_PWD,
+			T2.TRAN_PWD,T2.ERR_COUNT,T2.SECTY_LEVEL
+		FROM
+			T_USER T1,T_SECTY_CTL T2
+		WHERE
+			T1.USER_ID = T2.USER_ID AND T1.USER_ID = #{userid}
+	</select>
+	<!-- 更新客户基本信息 -->
+	<update id="updateUserById" parameterType="Map">
+		UPDATE
+			T_USER
+		SET
+			USER_CDE =  #{user_cde},USER_NAME =  #{user_name},USER_NICKNAME =  #{user_nickname},MAIL =  #{mail},
+			CERTIF_TYPE =  #{certif_type},CERTIF_NO =  #{certif_no},RECOD_PHONE =  #{recod_phone},UPDATE_DATE =  NOW()
+		WHERE
+			USER_ID = #{userid}
+	</update>
+	<!-- 查询客户银行信息 -->
+	<select id="queryBankInfo" parameterType="string" resultType="UserBank">
+		SELECT
+			USER_BANK_ACC_ID,USER_ID,BANK_CODE,BANK_NAME,BANK_BRANCH_NAME,BANK_ACC_CODE,DEFAULT_FLAG,CREATE_DATE,UPDATE_DATE
+		FROM
+			T_BANK_ACC
+		WHERE
+			USER_ID = #{userid}
+	</select>
+	<!-- 插入客户银行信息 -->
+	<insert id="insertBankInfo" parameterType="Map">
+		INSERT
+		INTO
+			T_BANK_ACC(USER_ID,BANK_CODE,BANK_NAME,BANK_BRANCH_NAME,BANK_ACC_CODE,DEFAULT_FLAG,CREATE_DATE,UPDATE_DATE)
+		VALUES
+			(#{user_id},#{bank_code},#{bank_name},#{bank_branch_name},#{bank_acc_code},#{default_flag},NOW(),NOW())
+	</insert>
+	<!-- 更新客户银行卡信息 -->
+	<update id="updateBankInfo" parameterType="Map">
+		UPDATE
+			T_BANK_ACC
+		SET
+			BANK_CODE=#{bank_code},BANK_NAME=#{bank_name},BANK_BRANCH_NAME=#{bank_branch_name},BANK_ACC_CODE=#{bank_acc_code},UPDATE_DATE= NOW()
+		WHERE
+			USER_BANK_ACC_ID=#{user_bank_acc_id}
+	</update>
+	<!-- 设置用户默认银行卡为否 -->
+	<update id="updateUserBankDefaultNo" parameterType="Map">
+		UPDATE
+			T_BANK_ACC
+		SET
+			DEFAULT_FLAG = '0',UPDATE_DATE= NOW()
+		WHERE
+			USER_ID=#{user_id}
+	</update>
+	<!-- 设置用户默认银行卡 -->
+	<update id="updateUserBankDefault" parameterType="Map">
+		UPDATE
+			T_BANK_ACC
+		SET
+			DEFAULT_FLAG = '1',UPDATE_DATE= NOW()
+		WHERE
+			USER_ID=#{user_id} AND USER_BANK_ACC_ID=#{user_bank_acc_id}
+	</update>
+	<!-- 删除银行卡信息 -->
+	<delete id="delBankInfo" parameterType="string">
+		DELETE
+		FROM
+			T_BANK_ACC
+		WHERE
+			USER_BANK_ACC_ID=#{user_bank_acc_id}
+	</delete>
+	<!-- 修改登录密码 -->
+	<update id="updateLoginPwd" parameterType="string">
+		UPDATE
+			T_SECTY_CTL
+		SET
+			LOGIN_PWD = #{login_pwd},
+			UPDATE_DATE = NOW()
+		WHERE
+			USER_ID=#{user_id}
+	</update>
+	<!-- 修改支付密码 -->
+	<update id="updateTranPwd" parameterType="string">
+		UPDATE
+			T_SECTY_CTL
+		SET
+			TRAN_PWD = #{tran_pwd},
+			UPDATE_DATE = NOW()
+		WHERE
+			USER_ID=#{user_id}
+	</update>
+	<!-- 根据用户ID、登录密码查询用户 -->
+	<select id="queryUserByIdPd" parameterType="string" resultType="string">
+		SELECT 
+			USER_ID
+		FROM
+			T_SECTY_CTL
+		WHERE
+			USER_ID = #{user_id} AND LOGIN_PWD = #{login_pwd}
+	</select>
+	
+</mapper>

@@ -1,0 +1,107 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- DEMO样例 -->
+	<!-- Dao-->
+	<bean id="demoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.user.demo.dao.DemoDao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- service -->
+	<bean id="demoService" class="com.p2p.webapp.user.demo.service.impl.DemoServiceImpl">
+		<property name="demodao" ref="demoDao" />
+	</bean>
+	<!-- action -->
+	<bean id="demoAction" class="com.p2p.webapp.user.demo.action.DemoAction" scope="prototype">
+		<property name="demoService" ref="demoService"/>
+	</bean>
+	<!-- 首页初始化跳转 -->
+	<bean id="indexAction" class="com.p2p.webapp.user.index.action.IndexAction">
+		<property name="indexService" ref="indexService"/>
+	</bean>
+	<!-- service -->
+	<bean id="indexService" class="com.p2p.webapp.user.index.service.impl.IndexServiceImpl">
+		<property name="indexDao" ref="indexDao"/>
+	</bean>
+	<!-- Dao-->
+	<bean id="indexDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.user.index.dao.IndexDao"/>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	<!-- 注册模块 -->
+	<!-- action -->
+	<bean id="registAction" class="com.p2p.webapp.user.regist.action.RegistAction" scope="prototype">
+		<property name="registService" ref="registService"/>
+	</bean>
+	<!-- service -->
+	<bean id="registService" class="com.p2p.webapp.user.regist.service.impl.RegistServiceImpl">
+		<property name="registDao" ref="registDao"/>
+	</bean>
+	<!-- Dao-->
+	<bean id="registDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.user.regist.dao.RegistDao"/>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	<!-- 登录模块 -->
+	<!-- action -->
+	<bean id="loginAction" class="com.p2p.webapp.user.login.action.LoginAction" scope="prototype">
+		<property name="loginService" ref="loginService"/>
+	</bean>
+	<!-- service -->
+	<bean id="loginService" class="com.p2p.webapp.user.login.service.impl.LoginServiceImpl">
+		<property name="loginDao" ref="loginDao"/>
+		<property name="userCenterDao" ref="userCenterDao"/>
+	</bean>
+	<!-- Dao-->
+	<bean id="loginDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.user.login.dao.LoginDao"/>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	<!-- 用户中心 -->
+	<!-- action -->
+	<bean id="userCenterAction" class="com.p2p.webapp.user.usercenter.action.UserCenterAction" scope="prototype">
+		<property name="userCenterService" ref="userCenterService"/>
+		<property name="fundMgrService" ref="fundMgrService"/>
+		<property name="investMgrService" ref="investMgrService"/>
+	</bean>
+	<!-- service -->
+	<bean id="userCenterService" class="com.p2p.webapp.user.usercenter.service.impl.UserCenterServiceImpl">
+		<property name="userCenterDao" ref="userCenterDao"/>
+		<property name="pubResultMgrDao" ref="pubResultMgrDao"/>
+	</bean>
+	<!-- Dao-->
+	<bean id="userCenterDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.user.usercenter.dao.UserCenterDao"/>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	<!-- 资金管理 -->
+	<!-- Dao-->
+	<bean id="fundMgrDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.user.fundmgr.dao.FundMgrDao"/>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	<!-- service -->
+	<bean id="fundMgrService" class="com.p2p.webapp.user.fundmgr.service.impl.FundMgrServiceImpl">
+		<property name="fundMgrDao" ref="fundMgrDao"/>
+		<property name="investMgrDao" ref="investMgrDao"/>
+	</bean>
+	<!-- action -->
+	<bean id="fundMgrAction" class="com.p2p.webapp.user.fundmgr.action.FundMgrAction" scope="prototype">
+		<property name="fundMgrService" ref="fundMgrService"/>
+	</bean>
+		<!-- action -->
+	<bean id="jsonTestAction" class="com.p2p.webapp.user.jsontest.action.JsonTestAction" scope="prototype">
+	</bean>
+	
+</beans>

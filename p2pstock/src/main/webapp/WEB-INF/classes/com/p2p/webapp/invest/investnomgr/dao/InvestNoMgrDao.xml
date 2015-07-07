@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.invest.investnomgr.dao.InvestNoMgrDao">
+	
+	<!-- 根据产品名称查询配号中签信息 -->
+	<select id="selectInvestNoInfo" resultType="InvestNoInfo" parameterType="Map">
+		SELECT 
+			T1.START_NO,T1.SUB_CODE,(SELECT PHONE FROM T_USER WHERE USER_ID = T2.USER_ID) AS INVEST_USER_PHONE,
+			T3.BASIC_PRODUCT_NAME,T4.INVT_PRODUCT_NAME,T5.USER_SETTLE_PROFIT,T4.INVT_PRODUCT_ID,
+			T6.INVEST_PRODUCT_ID,T6.RESULT_NO,T1.ACOUNT_PRTFEE AS PRODUCT_BUYCOUNT_ALL,IFNULL(T.PRAISE_COUNT,0) AS PRAISE_COUNT
+		FROM
+			T_INVEST_DETAIL T1 
+			LEFT JOIN T_INVEST T2 ON T1.USER_INVEST_ID = T2.USER_INVEST_ID
+			LEFT JOIN T_BASIC_PRODUCT T3 ON T1.BASIC_PRODUCT_ID = T3.BASIC_PRODUCT_ID
+			LEFT JOIN T_INVEST_PRDOUCT T4 ON T1.INVEST_PRDOUCT_ID = T4.INVT_PRODUCT_ID
+			LEFT JOIN T_PRODUCT_SETTLEDETAIL T5 ON T1.DETAIL_ID = T5.DETAIL_ID
+			LEFT JOIN T_BASIC_PRODUCT_STOCK T6 ON T1.BASIC_PRODUCT_ID = T6.BASIC_PRODUCT_ID
+			LEFT JOIN (SELECT  T7.DETAIL_ID,COUNT(*) AS PRAISE_COUNT FROM T_INVEST_NOINFO T7 GROUP BY  T7.DETAIL_ID) T 
+				ON T1.DETAIL_ID = T.DETAIL_ID
+		WHERE 1 = 1 AND T2.INVEST_STATUS != '1' AND T2.INVEST_STATUS != '9'
+			<if test="invt_product_name != null and invt_product_name != ''">
+				AND T4.INVT_PRODUCT_NAME LIKE #{invt_product_namelike} 
+			</if>
+			<if test="invest_product_id != null and invest_product_id != ''">
+				AND T6.INVEST_PRODUCT_ID = #{invest_product_id}
+			</if>
+			<if test="invt_product_id != null and invt_product_id != ''">
+				AND T4.INVT_PRODUCT_ID = #{invt_product_id}
+			</if>
+		ORDER BY T3.CREATE_DATE DESC
+	</select>
+	
+</mapper>

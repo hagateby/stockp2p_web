@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<decorators defaultdir="/WEB-INF/decorators">
+ 	<excludes>
+		<pattern>*/static/*</pattern>
+		<pattern>*/ajax/*</pattern>
+		<pattern>/index.jsp</pattern>
+	</excludes>
+	<decorator name="main" page="mainrrd.jsp">
+		<pattern>*/demo/*</pattern>
+		<pattern>*/demo</pattern>
+		<pattern>*/init/*</pattern>
+		<pattern>*/init</pattern>
+		<pattern>*/regist/*</pattern>
+		<pattern>*/regist</pattern>
+		<pattern>*/login/*</pattern>
+		<pattern>*/login</pattern>
+		<pattern>*/common/*</pattern>
+		<pattern>*/common</pattern>
+        <pattern>*/invest/*</pattern>
+		<pattern>*/invest</pattern>
+		<pattern>*/investnomgr/*</pattern>
+		<pattern>*/investnomgr</pattern>
+    </decorator>
+    <decorator name="mainsysmgr" page="mainsysmgr.jsp">
+    	<pattern>*/sysmgr</pattern>
+        <pattern>*/sysmgr/*</pattern>
+        <pattern>*/pubresult/*</pattern>
+		<pattern>*/pubresult</pattern>
+        <pattern>*/settle/*</pattern>
+		<pattern>*/settle</pattern>
+        <pattern>*/settlepay/*</pattern>
+		<pattern>*/settlepay</pattern>
+        <pattern>*/usrmgr/*</pattern>
+		<pattern>*/usrmgr</pattern>
+		<pattern>*/usercenter</pattern>
+        <pattern>*/usercenter/*</pattern>
+    	<pattern>*/fundmgr</pattern>
+        <pattern>*/fundmgr/*</pattern>
+    </decorator>
+    
+    <!--  人人贷网风格布局  网站共通部分:顶部,导航,尾部 -->
+    <decorator name="main_headerrrd" page="/WEB-INF/views/include/pagerrd/main_header.jsp"></decorator>
+    <decorator name="main_footerrrd" page="/WEB-INF/views/include/pagerrd/main_footer.jsp"></decorator>
+    <decorator name="main_ucenternav" page="/WEB-INF/views/include/pagerrd/main_ucenternav.jsp"></decorator>
+    <decorator name="main_ucentertree" page="/WEB-INF/views/include/pagerrd/main_ucentertree.jsp"></decorator>
+     <decorator name="main_sysmgrnav" page="/WEB-INF/views/include/pagerrd/main_sysmgrnav.jsp"></decorator>
+    <decorator name="main_sysmgrtree" page="/WEB-INF/views/include/pagerrd/main_sysmgrtree.jsp"></decorator>
+    
+    
+    
+    <!--  财豆网风格布局  网站共通部分:顶部,导航,尾部 -->
+    <decorator name="main_top" page="/WEB-INF/views/include/page/main_top.jsp"></decorator>
+    <decorator name="main_header" page="/WEB-INF/views/include/page/main_header.jsp"></decorator>
+    <decorator name="main_footer" page="/WEB-INF/views/include/page/main_footer.jsp"></decorator>
+    
+    <!-- 拍拍贷网风格布局  网站共通部分:顶部,导航,尾部 -->
+    <decorator name="main_topppd" page="/WEB-INF/views/include/pageppd/main_top.jsp"></decorator>
+    <decorator name="main_footerppd" page="/WEB-INF/views/include/pageppd/main_footer.jsp"></decorator>
+    
+</decorators>

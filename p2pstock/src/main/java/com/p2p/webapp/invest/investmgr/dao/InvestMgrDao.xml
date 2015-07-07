@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.invest.investmgr.dao.InvestMgrDao">
+	
+	<!-- 增加用户投资信息  -->
+	<insert id="insertInvestInfo" parameterType="Map">
+		INSERT INTO
+			T_INVEST(USER_ID,INVEST_PRDOUCT_ID,TRANSION_SEQ,INVEST_STATUS,INVEST_TYPE,ACOUNT_PRTFEEALL,ACOUNT_BAILALL,ACOUNT_CHARGEALL,AMOUNT_ALL,CREATE_DATE,UPDATE_DATE)
+		VALUES
+			(#{user_id},#{invest_prdouct_id},#{transion_seq},#{invest_status}, #{invest_type},#{acount_prtfeeall},#{acount_bailall},#{acount_chargeall},#{amount_all},NOW(),NOW())
+	</insert>
+	<!-- 增加用户投资明细表 -->
+	<insert id="insertInvestDetail" parameterType="Map">
+		INSERT INTO
+			T_INVEST_DETAIL(USER_INVEST_ID,BASIC_PRODUCT_ID,ACOUNT_PRTFEE,ACOUNT_BAIL,ACOUNT_CHARGE,AMOUNT,START_NO,SUB_CODE,CREATE_DATE,UPDATE_DATE,INVEST_PRDOUCT_ID,INVEST_STATUS,USER_ID)
+		VALUES(#{user_invest_id},#{basic_product_id},#{acount_prtfee},#{acount_bail},#{acount_charge},#{amount},#{start_no},#{sub_code},NOW(),NOW(),#{invest_prdouct_id},#{invest_status},#{user_id})
+	</insert>
+	<!-- 删除用户投资信息  -->
+	<delete id="delInvestInfo" parameterType="string">
+		DELETE
+		FROM
+			T_INVEST
+		WHERE
+			USER_INVEST_ID = #{user_invest_id}
+	</delete>
+	<!-- 删除用户投资明细信息  -->
+	<delete id="delInvestDetail" parameterType="string">
+		DELETE
+		FROM
+			T_INVEST_DETAIL
+		WHERE
+			USER_INVEST_ID = #{user_invest_id}
+	</delete>
+	<!-- 根据用户投资ID查询投资信息 -->
+	<select id="queryInvest" parameterType="string" resultType="Invest">
+		SELECT
+			USER_ID,INVEST_PRDOUCT_ID,TRANSION_SEQ,INVEST_STATUS,INVEST_TYPE,ACOUNT_PRTFEEALL,ACOUNT_BAILALL,ACOUNT_CHARGEALL,AMOUNT_ALL,CREATE_DATE,UPDATE_DATE
+		FROM
+			T_INVEST
+		WHERE
+			USER_INVEST_ID = #{user_invest_id}
+	</select>
+	
+	
+	<!-- 查询最新id -->
+	<select id="queryMaxLastSq" resultType="string">
+		select last_insert_id() as id;
+	</select>
+	<!-- 增加交易流水表 -->
+	<insert id="insertTranSeq" parameterType="Map">
+		INSERT INTO
+			T_TRANSION(TRANSION_SEQ,USER_ID,TRANSION_TYPE,PAYMENT_TYPE,BANK_SEQ,AMOUNT,CREATE_DATE,UPDATE_DATE)
+		VALUES(#{transion_seq},#{user_id},#{transion_type},#{payment_type},#{bank_seq},#{amount},NOW(),NOW())
+	</insert>
+	<!-- 根据投资ID更新投资状态 -->
+	<update id="updateInvestStatusByUser" parameterType="Map">
+		UPDATE
+			T_INVEST
+		SET
+			INVEST_STATUS =  #{invest_status},UPDATE_DATE = NOW()
+		WHERE
+			USER_INVEST_ID =  #{user_invest_id}
+		<if test="invest_statuspre != null and invest_statuspre != ''">
+			AND INVEST_STATUS = #{invest_statuspre} 
+		</if>
+	</update>
+	<!-- 根据投资ID更新投资状态 -->
+	<update id="updateInvestDetailStatusByUser" parameterType="Map">
+		UPDATE
+			T_INVEST_DETAIL
+		SET
+			INVEST_STATUS =  #{invest_status},UPDATE_DATE = NOW()
+		WHERE
+			USER_INVEST_ID =  #{user_invest_id}
+		<if test="invest_statuspre != null and invest_statuspre != ''">
+			AND INVEST_STATUS = #{invest_statuspre} 
+		</if>
+	</update>
+	<!-- 根据产品ID更新投资状态 -->
+	<update id="updateInvestStatusByInvt" parameterType="Map">
+		UPDATE
+			T_INVEST
+		SET
+			INVEST_STATUS =  #{invest_status},UPDATE_DATE = NOW()
+		WHERE
+			INVEST_PRDOUCT_ID =  #{invest_prdouct_id} 
+		<if test="invest_statuspre != null and invest_statuspre != ''">
+			AND INVEST_STATUS = #{invest_statuspre} 
+		</if>
+		<if test="user_id != null and user_id != ''">
+			AND USER_ID = #{user_id} 
+		</if>
+	</update>
+	<!-- 根据产品ID更新投资状态 -->
+	<update id="updateInvestDetailStatusByInvt" parameterType="Map">
+		UPDATE
+			T_INVEST_DETAIL
+		SET
+			INVEST_STATUS =  #{invest_status},UPDATE_DATE = NOW()
+		WHERE
+			INVEST_PRDOUCT_ID =  #{invest_prdouct_id} 
+		<if test="invest_statuspre != null and invest_statuspre != ''">
+			AND INVEST_STATUS = #{invest_statuspre} 
+		</if>
+		<if test="user_id != null and user_id != ''">
+			AND USER_ID = #{user_id} 
+		</if>
+	</update>
+	
+	
+	
+	
+	
+	<!-- 生成投资号码库 -->
+	<insert id="insertInvestNo" parameterType="Map">
+		INSERT INTO
+			T_INVEST_NOINFO(USER_INVEST_ID,INVEST_PRDOUCT_ID,BASIC_PRODUCT_ID,INVEST_NO,CREATE_DATE,UPDATE_DATE)
+		VALUES
+			(#{user_invest_id},#{invest_prdouct_id},#{basic_product_id},#{invest_no},NOW(),NOW())
+	</insert>
+	<!-- 查询投资产品投资明细 -->
+	<select id="selectInvestDetail" resultType="InvestDetail" parameterType="Map">
+		SELECT 
+			T1.USER_INVEST_ID,T1.INVEST_PRDOUCT_ID,T1.BASIC_PRODUCT_ID,T1.ACOUNT_PRTFEE,
+			T1.ACOUNT_BAIL,T1.ACOUNT_CHARGE,T1.AMOUNT,T1.START_NO,T1.SUB_CODE,T1.CREATE_DATE,T1.UPDATE_DATE,T2.RESULT_NO,
+			T1.DETAIL_ID
+		FROM 
+			T_INVEST_DETAIL T1 LEFT JOIN T_BASIC_PRODUCT_STOCK T2 
+		ON
+			T1.BASIC_PRODUCT_ID = T2.BASIC_PRODUCT_ID
+		WHERE
+			INVEST_PRDOUCT_ID = #{invest_product_id} AND (T1.INVEST_STATUS = '2' OR T1.INVEST_STATUS = '5')
+	</select>
+	<!-- 查询投资信息 -->
+	<select id="selectInvest" resultType="Invest" parameterType="Map">
+		SELECT 
+			USER_INVEST_ID,USER_ID,INVEST_PRDOUCT_ID,TRANSION_SEQ,INVEST_STATUS,INVEST_TYPE,ACOUNT_PRTFEEALL,ACOUNT_BAILALL,ACOUNT_CHARGEALL,AMOUNT_ALL,CREATE_DATE,UPDATE_DATE
+		FROM T_INVEST
+		WHERE
+			INVEST_PRDOUCT_ID = #{invest_product_id} 
+	</select>
+	<!-- 查询用户投资总收益 -->
+	<select id="selectUserInvestProfit" resultType="string" parameterType="string">
+		SELECT 
+			SUM(USER_INVEST_PROFIT) AS USER_INVEST_PROFIT
+		FROM T_PRODUCT_SETTLE
+		WHERE
+			INVEST_USER_ID = #{invest_user_id} 
+	</select>
+	<!-- 查询用户总投资额 -->
+	<select id="selectUserInvestMoney" resultType="string" parameterType="string">
+		SELECT 
+			SUM(PRODUCT_BUYCOUNT_ALL) AS PRODUCT_BUYCOUNT_ALL
+		FROM T_PRODUCT_SETTLEDETAIL
+		WHERE
+			INVEST_USER_ID = #{invest_user_id} 
+	</select>
+	<!-- 查询用户投资信息 -->
+	<select id="selectUserInvestInfo" resultType="Invest" parameterType="Map">
+		SELECT 
+			T1.USER_INVEST_ID,T1.USER_ID,T3.PHONE AS USER_NAME,T1.INVEST_PRDOUCT_ID,T2.INVT_PRODUCT_NAME AS INVEST_PRDOUCT_NAME,
+			T1.TRANSION_SEQ,T1.INVEST_STATUS,
+			(SELECT PARA_NAME FROM T_SYSTEM_PARA WHERE PARA_VALUES = T1.INVEST_STATUS AND PARA_TYPE = 'INVESTSTATUS') AS INVEST_STATUSNAME,
+			T1.ACOUNT_PRTFEEALL,
+			T1.ACOUNT_BAILALL,
+			T4.PRODUCT_INVESTCHARGE_ALL AS ACOUNT_CHARGEALL,
+			T4.USER_INVEST_PROFIT,T4.USER_SETTLE_PROFIT,
+			T4.AMOUNT_ALL,
+			STR_TO_DATE(T1.UPDATE_DATE,'%Y-%m-%d') AS UPDATE_DATE,
+			STR_TO_DATE(T2.START_DATE,'%Y-%m-%d') AS START_DATE,
+			STR_TO_DATE(T2.END_DATE,'%Y-%m-%d') AS END_DATE,
+			T2.INVT_PRODUCT_STATUS
+		FROM 
+			T_INVEST T1 
+			LEFT JOIN T_INVEST_PRDOUCT T2 ON T1.INVEST_PRDOUCT_ID = T2.INVT_PRODUCT_ID
+			LEFT JOIN T_USER T3 ON T1.USER_ID = T3.USER_ID
+			LEFT JOIN (
+			SELECT 
+				T.USER_INVEST_ID,SUM(T.PRODUCT_BUYCOUNT_ALL) AS PRODUCT_BUYCOUNT_ALL,
+				SUM(T.PRODUCT_INVESTBAIL_ALL) AS PRODUCT_INVESTBAIL_ALL,SUM(T.PRODUCT_INVESTCHARGE_ALL) AS PRODUCT_INVESTCHARGE_ALL,
+				SUM(T.USER_INVEST_PROFIT) AS USER_INVEST_PROFIT,SUM(T.USER_SETTLE_PROFIT) AS USER_SETTLE_PROFIT,
+				SUM(T.PRODUCT_INVESTCOUNT_ALL) AS AMOUNT_ALL
+			FROM 
+				T_PRODUCT_SETTLEDETAIL T
+			GROUP BY T.USER_INVEST_ID
+			)T4 ON T1.USER_INVEST_ID = T4.USER_INVEST_ID
+		WHERE 1 = 1 
+			<if test="invt_product_name != null and invt_product_name != ''">
+				AND T2.INVT_PRODUCT_NAME LIKE #{invt_product_namelike}
+			</if>
+			<if test="user_id != null and user_id != ''">
+				AND T1.USER_ID = #{user_id} 
+			</if>
+			<if test="invest_status != null and invest_status != ''">
+				AND T1.INVEST_STATUS = #{invest_status} 
+			</if>
+			<if test="start_date != null and start_date != ''">
+				AND STR_TO_DATE(T1.UPDATE_DATE,'%Y-%m-%d')  &gt;= #{start_date}
+			</if>
+			<if test="end_date != null and end_date != ''">
+				AND STR_TO_DATE(T1.UPDATE_DATE,'%Y-%m-%d')   &lt;= #{end_date}
+			</if>
+			<if test="invest_statusqry != null and invest_statusqry != '' and invest_statusqry == '0'">
+				AND T1.INVEST_STATUS == '1'
+			</if>
+			<if test="invest_statusqry != null and invest_statusqry != '' and invest_statusqry == '1'">
+				AND T1.INVEST_STATUS != '1'
+			</if>
+		ORDER BY T1.UPDATE_DATE DESC
+	</select>
+	<!-- 查询用户当前投资信息 -->
+	<select id="selectUserInvestNow" resultType="Invest" parameterType="Map">
+		SELECT 
+			T1.USER_INVEST_ID,T1.USER_ID,T3.PHONE AS USER_NAME,T1.INVEST_PRDOUCT_ID,T2.INVT_PRODUCT_NAME AS INVEST_PRDOUCT_NAME,
+			T1.TRANSION_SEQ,T1.INVEST_STATUS,
+			(SELECT PARA_NAME FROM T_SYSTEM_PARA WHERE PARA_VALUES = T1.INVEST_STATUS AND PARA_TYPE = 'INVESTSTATUS') AS INVEST_STATUSNAME,
+			T1.ACOUNT_PRTFEEALL,
+			T1.ACOUNT_BAILALL,
+			T4.PRODUCT_INVESTCHARGE_ALL AS ACOUNT_CHARGEALL,
+			T4.USER_INVEST_PROFIT,T4.USER_SETTLE_PROFIT,
+			T4.AMOUNT_ALL,
+			STR_TO_DATE(T1.UPDATE_DATE,'%Y-%m-%d') AS UPDATE_DATE,
+			STR_TO_DATE(T2.START_DATE,'%Y-%m-%d') AS START_DATE,
+			STR_TO_DATE(T2.END_DATE,'%Y-%m-%d') AS END_DATE,
+			T2.INVT_PRODUCT_STATUS
+		FROM 
+			T_INVEST T1 
+			LEFT JOIN T_INVEST_PRDOUCT T2 ON T1.INVEST_PRDOUCT_ID = T2.INVT_PRODUCT_ID
+			LEFT JOIN T_USER T3 ON T1.USER_ID = T3.USER_ID
+			LEFT JOIN (
+			SELECT 
+				T.USER_INVEST_ID,SUM(T.PRODUCT_BUYCOUNT_ALL) AS PRODUCT_BUYCOUNT_ALL,
+				SUM(T.PRODUCT_INVESTBAIL_ALL) AS PRODUCT_INVESTBAIL_ALL,SUM(T.PRODUCT_INVESTCHARGE_ALL) AS PRODUCT_INVESTCHARGE_ALL,
+				SUM(T.USER_INVEST_PROFIT) AS USER_INVEST_PROFIT,SUM(T.USER_SETTLE_PROFIT) AS USER_SETTLE_PROFIT,
+				SUM(T.PRODUCT_INVESTCOUNT_ALL) AS AMOUNT_ALL
+			FROM 
+				T_PRODUCT_SETTLEDETAIL T
+			GROUP BY T.USER_INVEST_ID
+			)T4 ON T1.USER_INVEST_ID = T4.USER_INVEST_ID
+		WHERE T1.USER_ID = #{user_id}  AND T1.INVEST_STATUS != '4'
+		ORDER BY T1.UPDATE_DATE DESC
+	</select>
+	<!-- 查询用户投资详细信息 -->
+	<select id="selectUserInvestMoreInfo" resultType="Invest" parameterType="string">
+		SELECT 
+			T2.INVT_PRODUCT_STATUS,T1.USER_INVEST_ID,T1.USER_ID,T3.PHONE AS USER_NAME,T1.INVEST_PRDOUCT_ID,T2.INVT_PRODUCT_NAME AS INVEST_PRDOUCT_NAME,
+			T1.TRANSION_SEQ,T1.INVEST_STATUS,
+			(SELECT PARA_NAME FROM T_SYSTEM_PARA WHERE PARA_VALUES = T1.INVEST_STATUS AND PARA_TYPE = 'INVESTSTATUS') AS INVEST_STATUSNAME,
+			T5.ACOUNT_PRTFEE AS ACOUNT_PRTFEEALL,
+			T5.ACOUNT_BAIL AS ACOUNT_BAILALL,
+			T4.PRODUCT_INVESTCHARGE_ALL AS ACOUNT_CHARGEALL,
+			T4.USER_INVEST_PROFIT,T4.USER_SETTLE_PROFIT,
+			T4.PRODUCT_INVESTCOUNT_ALL AS AMOUNT_ALL,
+			STR_TO_DATE(T1.UPDATE_DATE,'%Y-%m-%d') AS UPDATE_DATE,
+			T5.BASIC_PRODUCT_ID,T6.BASIC_PRODUCT_NAME,
+			T7.INVEST_PRODUCT_ID AS STOCK_CODE,T7.RESULT_NO,T5.START_NO,T5.SUB_CODE,T4.PRAISE_COUNT
+		FROM 
+			T_INVEST T1 
+			LEFT JOIN T_INVEST_DETAIL T5 ON T1.USER_INVEST_ID = T5.USER_INVEST_ID
+			LEFT JOIN T_BASIC_PRODUCT T6 ON T5.BASIC_PRODUCT_ID = T6.BASIC_PRODUCT_ID
+			LEFT JOIN T_BASIC_PRODUCT_STOCK T7 ON T5.BASIC_PRODUCT_ID = T7.BASIC_PRODUCT_ID
+			LEFT JOIN T_INVEST_PRDOUCT T2 ON T1.INVEST_PRDOUCT_ID = T2.INVT_PRODUCT_ID
+			LEFT JOIN T_USER T3 ON T1.USER_ID = T3.USER_ID
+			LEFT JOIN T_PRODUCT_SETTLEDETAIL T4 
+				ON T5.DETAIL_ID = T4.DETAIL_ID
+		WHERE T1.USER_INVEST_ID = #{user_invest_id}
+
+	</select>
+	<!-- 投资详细信息查询 -->
+	<select id="selectInvestMoreInfo" resultType="InvestMoreInfo" parameterType="string">
+		SELECT
+			T1.USER_INVEST_ID,T1.ACOUNT_BAIL,T1.ACOUNT_CHARGE,T1.ACOUNT_PRTFEE,T1.AMOUNT AS ACOUNT,T1.BASIC_PRODUCT_ID,T1.INVEST_PRDOUCT_ID AS INVT_PRODUCT_ID,
+			T1.START_NO,T1.SUB_CODE,T1.USER_INVEST_ID,T2.INVT_PRODUCT_NAME,T2.INVT_PRODUCT_STATUS,T2.INVESTER_BAIL,T2.USER_ACCRUEDCHARGES_TYPE,T2.USER_ACCRUEDCHARGES_AMOUNT,
+			T3.BASIC_PRODUCT_NAME,T4.INVEST_PRODUCT_ID,T4.PRICE,T4.SALES_CITY,T2.START_DATE,T2.END_DATE,(SELECT PHONE FROM T_USER WHERE USER_ID = T2.USER_ID) AS USER_NAME,
+			(SELECT PARA_NAME FROM T_SYSTEM_PARA WHERE PARA_VALUES = T4.SALES_CITY AND PARA_TYPE = 'CITY') AS SALES_CITYNAME,
+			T2.AMOUNT
+		FROM
+			T_INVEST_DETAIL T1 
+			LEFT JOIN T_INVEST_PRDOUCT T2 ON T1.INVEST_PRDOUCT_ID = T2.INVT_PRODUCT_ID
+			LEFT JOIN T_BASIC_PRODUCT T3 ON T1.BASIC_PRODUCT_ID = T3.BASIC_PRODUCT_ID
+			LEFT JOIN T_BASIC_PRODUCT_STOCK T4 ON T1.BASIC_PRODUCT_ID = T4.BASIC_PRODUCT_ID
+		WHERE
+			T1.USER_INVEST_ID = #{user_invest_id}
+	</select>
+	
+	<!-- 更新投资状态 -->
+	<update id="updateInvestStatusByPrt" parameterType="Map">
+			UPDATE
+				T_INVEST
+			SET
+				INVEST_STATUS = #{invest_status},
+				UPDATE_DATE = now()
+			WHERE
+				INVEST_PRDOUCT_ID = #{invest_prdouct_id} 
+	</update>
+</mapper>

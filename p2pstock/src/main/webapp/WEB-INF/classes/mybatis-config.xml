@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="false"/>
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<setting name="aggressiveLazyLoading" value="true"/>
+		<setting name="multipleResultSetsEnabled" value="true"/>
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="autoMappingBehavior" value="PARTIAL" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<setting name="defaultStatementTimeout" value="25000" />
+	</settings>
+	<typeAliases>
+		<typeAlias alias="Demo" type="com.p2p.webapp.user.demo.entity.Demo"/>
+		<typeAlias alias="MsgLog" type="com.p2p.webapp.ajax.phonecpt.entity.MsgLog"/>
+		<typeAlias alias="User" type="com.p2p.webapp.user.regist.entity.User"/>
+		<typeAlias alias="UserCtl" type="com.p2p.webapp.user.regist.entity.UserCtl"/>
+		<typeAlias alias="UserInfo" type="com.p2p.webapp.user.login.entity.UserInfo"/>
+		<typeAlias alias="OptLog" type="com.p2p.webapp.user.login.entity.OptLog"/>
+		<typeAlias alias="SystemParam" type="com.p2p.webapp.system.parammgr.entity.SystemParam"/>
+		<typeAlias alias="UserBank" type="com.p2p.webapp.user.usercenter.entity.UserBank"/>
+		<typeAlias alias="BaseProduct" type="com.p2p.webapp.sysmgr.productmgr.entity.BaseProduct"/>
+		<typeAlias alias="InvestProduct" type="com.p2p.webapp.sysmgr.issuemgr.entity.InvestProduct"/>
+		<typeAlias alias="InvestMoreInfo" type="com.p2p.webapp.sysmgr.issuemgr.entity.InvestMoreInfo"/>
+		<typeAlias alias="AccountInfo" type="com.p2p.webapp.user.fundmgr.entity.AccountInfo"/>
+		<typeAlias alias="ProductDetailCount" type="com.p2p.webapp.sysmgr.pubresultmgr.entity.ProductDetailCount"/>
+		<typeAlias alias="InvestDetail" type="com.p2p.webapp.invest.investmgr.entity.InvestDetail"/>
+		<typeAlias alias="Invest" type="com.p2p.webapp.invest.investmgr.entity.Invest"/>
+		<typeAlias alias="InvtProductSumInfo" type="com.p2p.webapp.sysmgr.pubresultmgr.entity.InvtProductSumInfo"/>
+		<typeAlias alias="InvtProductSettleDetail" type="com.p2p.webapp.sysmgr.pubresultmgr.entity.InvtProductSettleDetail"/>
+		<typeAlias alias="UserSettle" type="com.p2p.webapp.sysmgr.pubresultmgr.entity.UserSettle"/>
+		<typeAlias alias="IndexCount" type="com.p2p.webapp.user.index.entity.IndexCount"/>
+		<typeAlias alias="InvestNoInfo" type="com.p2p.webapp.invest.investnomgr.entity.InvestNoInfo"/>
+		<typeAlias alias="TranInfo" type="com.p2p.webapp.user.fundmgr.entity.TranInfo"/>
+		<typeAlias alias="MsgInfo" type="com.p2p.webapp.system.parammgr.entity.MsgInfo"/>
+		<typeAlias alias="MenuInfo" type="com.p2p.webapp.system.menu.entity.MenuInfo"/>
+	</typeAliases>
+    <plugins>
+       <plugin interceptor="com.p2p.webapp.common.intercepts.PageIntercept">
+           <property name="databaseType" value="Oracle"/>
+       </plugin>
+    </plugins>
+</configuration>

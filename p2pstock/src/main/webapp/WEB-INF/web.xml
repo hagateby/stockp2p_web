@@ -1,0 +1,83 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  
+  	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+  	<!-- 加载配置文件-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/p2p_*.xml</param-value>
+	</context-param>
+	<!-- 启动加载容器 -->
+	<servlet>
+		<servlet-name>NciAppInit</servlet-name>
+		<servlet-class>com.p2p.webapp.common.init.AppInitAction</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<filter>  
+	    <filter-name>struts-prepare</filter-name>  
+	    <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareFilter</filter-class>  
+	</filter>  
+	<filter>  
+	    <filter-name>sitemesh</filter-name>  
+	    <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>  
+	</filter> 
+	<filter>  
+	    <filter-name>struts-execute</filter-name>  
+	    <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsExecuteFilter</filter-class>  
+	</filter>  
+	<filter-mapping>  
+	    <filter-name>struts-prepare</filter-name>  
+	    <url-pattern>*.action</url-pattern>  
+	    <dispatcher>REQUEST</dispatcher>  
+	    <dispatcher>FORWARD</dispatcher>  
+	</filter-mapping> 
+	<filter-mapping>
+	    <filter-name>sitemesh</filter-name>  
+	    <url-pattern>/*</url-pattern>  
+	    <dispatcher>REQUEST</dispatcher>  
+	    <dispatcher>FORWARD</dispatcher>  
+	    <dispatcher>INCLUDE</dispatcher>  
+	</filter-mapping> 
+	<filter-mapping>
+	    <filter-name>struts-execute</filter-name>
+	    <url-pattern>*.action</url-pattern>
+	    <dispatcher>REQUEST</dispatcher>
+	    <dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	<servlet>
+	    <servlet-name>sitemesh-freemarker</servlet-name>  
+	    <servlet-class>com.opensymphony.module.sitemesh.freemarker.FreemarkerDecoratorServlet</servlet-class>
+	    <init-param>
+	        <param-name>TemplatePath</param-name>  
+	        <param-value>/</param-value>  
+	    </init-param>
+	    <init-param>
+	        <param-name>default_encoding</param-name>  
+	        <param-value>UTF-8</param-value>  
+	    </init-param>
+	    <load-on-startup>1</load-on-startup>  
+	</servlet>
+	<servlet-mapping>  
+	    <servlet-name>sitemesh-freemarker</servlet-name>  
+	    <url-pattern>*.ftl</url-pattern>  
+	</servlet-mapping>  
+	  
+	<servlet>  
+	    <servlet-name>JspSupportServlet</servlet-name>  
+	    <servlet-class>org.apache.struts2.views.JspSupportServlet</servlet-class>  
+	    <load-on-startup>1</load-on-startup>  
+	</servlet>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<session-config>
+    	<session-timeout>60</session-timeout>
+	</session-config>
+</web-app>

@@ -1,0 +1,76 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<!-- 基础标的管理 -->
+	<!-- action -->
+	<bean id="productMgrAction" class="com.p2p.webapp.sysmgr.productmgr.action.ProductMgrAction" scope="prototype">
+		<property name="productMgrService" ref="productMgrService" />
+	</bean>
+	<!-- service -->
+	<bean id="productMgrService" class="com.p2p.webapp.sysmgr.productmgr.service.impl.ProductMgrServiceImpl">
+		<property name="productMgrDao" ref="productMgrDao" />
+	</bean>
+	<!-- Dao-->
+	<bean id="productMgrDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.sysmgr.productmgr.dao.ProductMgrDao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- 发行产品管理 -->
+	<!-- action -->
+	<bean id="issueMgrAction" class="com.p2p.webapp.sysmgr.issuemgr.action.IssueMgrAction" scope="prototype">
+		<property name="issueMgrService" ref="issueMgrService" />
+	</bean>
+	<!-- service -->
+	<bean id="issueMgrService" class="com.p2p.webapp.sysmgr.issuemgr.service.impl.IssueMgrServiceImpl">
+		<property name="issueMgrDao" ref="issueMgrDao" />
+		<property name="productMgrDao" ref="productMgrDao" />
+	</bean>
+	<!-- Dao-->
+	<bean id="issueMgrDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.sysmgr.issuemgr.dao.IssueMgrDao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!--中奖结果公布 -->
+	<!-- action -->
+	<bean id="pubResultMgrAction" class="com.p2p.webapp.sysmgr.pubresultmgr.action.PubResultMgrAction" scope="prototype">
+		<property name="pubResultMgrService" ref="pubResultMgrService" />
+	</bean>
+	<!-- service -->
+	<bean id="pubResultMgrService" class="com.p2p.webapp.sysmgr.pubresultmgr.service.impl.PubResultMgrServiceImpl">
+		<property name="pubResultMgrDao" ref="pubResultMgrDao" />
+		<property name="issueMgrDao" ref="issueMgrDao" />
+		<property name="investMgrDao" ref="investMgrDao" />
+		<property name="investMgrService" ref="investMgrService" />
+	</bean>
+	<!-- Dao-->
+	<bean id="pubResultMgrDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.sysmgr.pubresultmgr.dao.PubResultMgrDao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- 用户管理 -->
+	<!-- action -->
+	<bean id="usrMgrAction" class="com.p2p.webapp.sysmgr.usrmgr.action.UsrMgrAction" scope="prototype">
+		<property name="usrMgrService" ref="usrMgrService" />
+	</bean>
+	<!-- service -->
+	<bean id="usrMgrService" class="com.p2p.webapp.sysmgr.usrmgr.service.impl.UsrMgrServiceImpl">
+		<property name="usrMgrDao" ref="usrMgrDao" />
+	</bean>
+	<!-- Dao-->
+	<bean id="usrMgrDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.sysmgr.usrmgr.dao.UsrMgrDao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+</beans>

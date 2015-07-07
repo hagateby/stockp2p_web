@@ -1,0 +1,49 @@
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+		<!-- 指定truts2请求处理的后缀，多个则以英文逗号分隔，如新华保险缩写是nci，我们设置个性化后缀nci且同时支持action后缀 -->
+		<constant name="struts.action.extension" value="action"/>
+		<!-- truts2用来指定默认编码的 ,相当于用HttpRequest的setCharacterEncoding -->
+		<constant name="struts.i18n.encoding" value="UTF-8" /> 
+		<!--设置浏览器是否缓存静态内容，默认为TRUE  开发阶段最好关闭  ,发布时改成TRUE-->
+    <constant name="struts.server.static.browserCache" value="false"/>
+    <!-- Struts2配置文件后不许重启服务器，开发模式下最好开启，到生产时回复默认false-->
+		<constant name="struts.configuration.xml.reload" value="false"/>
+	    <!-- 默认的视图主题-->
+		<constant name="struts.ui.theme" value="simple"/>
+		<!-- action 交给spring管理 -->
+    <constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+
+	<constant name="struts.objectFactory.spring.autoWire" value="type" />   
+	
+	<!-- 指定允许上传的文件最大字节数。默认值是2097152(2M) -->    
+	<constant name="struts.multipart.maxSize" value="524288000"/>
+	
+	<package name="struts-pub" namespace="/" extends="struts-default">
+    	<!-- 拦截器公共处理 -->
+		<interceptors>
+		<!-- 拦截所有请求，进行菜单公共处理 -->
+		<interceptor name="treeMenuIntercept" class="com.p2p.webapp.common.intercepts.TreeMenuIntercept"/>
+		<!-- 拦截所有请求，进行登录状态校验 -->
+		<interceptor name="bizIntercept" class="com.p2p.webapp.common.intercepts.BizIntercept"/>
+        <interceptor name="errIntercept" class="com.p2p.webapp.common.intercepts.ErrIntercept"/>
+        <interceptor-stack name="teamwareStack">
+        	<interceptor-ref name="defaultStack"/>
+        	<interceptor-ref name="errIntercept"/>
+        	<interceptor-ref name="treeMenuIntercept"/>
+        	<interceptor-ref name="bizIntercept"/>
+        </interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="teamwareStack"/>
+		<global-results>
+			<result name="error">/WEB-INF/views/common/error/syserror.jsp</result>
+			<result name="timeout">/WEB-INF/views/user/login/logininit.jsp</result>
+		</global-results>
+	</package>
+
+	<include file="com/p2p/webapp/user/web-user.xml" />
+	<include file="com/p2p/webapp/ajax/web-ajax.xml" />
+	<include file="com/p2p/webapp/sysmgr/web-sysmgr.xml" />
+	<include file="com/p2p/webapp/invest/web-invest.xml" />
+</struts>

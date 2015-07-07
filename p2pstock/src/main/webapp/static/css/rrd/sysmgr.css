@@ -1,0 +1,396 @@
+.tbl_td{
+padding:5px;
+}
+.tbl_td_15{
+align:right;
+padding:15px;
+}
+.tbl_td_lbcolor{
+	background-color:#F0F8FF;
+}
+.tbl_td_15_b{
+border:1px solid #DDDDDD;
+align:right;
+padding:15px;
+}
+.tbl_td_20{
+border:1px solid #DDDDDD;
+text-align:center;
+padding:5px 5px 5px 5px;
+}
+.tbl_td_20_mount{
+border:1px solid #DDDDDD;
+text-align:right;
+padding:5px 5px 5px 5px;
+}
+.tbl_td_width{
+width:200px;
+}
+.tbl_tdtitle140{
+border:1px solid #DDDDDD;
+background-color:#D1EEEE;
+width:140px;
+height:20px
+}
+.tbl_tdtitlecolor{
+border:1px solid #DDDDDD;
+background-color:#D1EEEE;
+height:20px
+}
+
+.tbl_tdtitle160{
+border:1px solid #DDDDDD;
+background-color:#D1EEEE;
+width:160px;
+height:20px
+}
+.tbl_tdtitleh{
+border:1px solid #DDDDDD;
+background-color:#E5E5E5;
+width:160px;
+height:20px
+}
+.ui-selectdrop-new{
+
+}
+.s_select_bg_new {
+	border: 1px solid #2ea7e0;
+	border-radius: 3px;
+	color: #6A6A6A;
+	cursor: pointer;
+	outline: 0 none
+}
+.popCityBox_new {
+	background-color: #fff;
+	border: 1px solid #00a8e7;
+	border-radius: 4px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+	cursor: default;
+	margin: 2px 0 0;
+	outline: 0 none;
+	position: absolute;
+	z-index: 21;
+	width: 170px;
+	max-height: 250px;
+	padding: 4px 0;
+	overflow-y: auto
+}
+.popCityBox_new2 {
+	background-color: #fff;
+	border: 1px solid #00a8e7;
+	border-radius: 4px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+	cursor: default;
+	margin: 2px 0 0;
+	outline: 0 none;
+	position: absolute;
+	z-index: 21;
+	max-height: 250px;
+	padding: 4px 0;
+	overflow-y: auto
+}
+.arrow_new {
+	background: url(/p2pstock/static/images/rrd/seclb.jpg);
+	display: block;
+	background-position: center;
+	position: absolute;
+	height: 35px;
+	width: 42px;
+	left:304px;
+}
+.arrow_new2 {
+	background: url(/p2pstock/static/images/rrd/seclb.jpg);
+	display: block;
+	background-position: center;
+	position: absolute;
+	height: 35px;
+	width: 42px;
+}
+
+.addbtn_001{
+	background: url(/p2pstock/static/images/rrd/addbtn01.jpg);
+	display: block;
+	background-position: center;
+	height: 20px;
+	width: 20px;
+	cursor:pointer;
+}
+.arrow_new2 {
+	background: url(/p2pstock/static/images/rrd/seclb.jpg);
+	display: block;
+	background-position: center;
+	position: absolute;
+	height: 35px;
+	width: 42px;
+}
+.txt_new {
+	display: inline-block;
+	float: left;
+	height: 24px;
+	padding: 8px 0 0 10px;
+	width: 100px;
+	overflow: hidden
+}
+
+.ui-label-1 {
+	float: left;
+	width: 170px;
+	margin-left: -70px;
+	padding-top: 10px;
+	text-align: left;
+	font-size: 14px
+}
+.sec_new{
+	background-color: #fff;
+	border: 1px solid #00a8e7;
+	border-radius: 4px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+	cursor: default;
+	margin: 2px 0 0;
+	outline: 0 none;
+	position: absolute;
+	z-index: 21;
+	width: 100px;
+	max-height: 250px;
+	padding: 4px 0;
+	overflow-y: auto;
+	display:none;
+}
+.seclbl_new{
+	background-color: #fff;
+	width:150px;
+}
+.seclbl_new:hover{
+	background-color: #2ea7e0;
+
+}
+
+.ui-selectdrop-2 .txt i {
+	width: 20px;
+	height: 20px;
+	background-image: url(../../../img/banks/bank-icon.png);
+	background-repeat: no-repeat;
+	background-position: center 100px;
+	float: left;
+	margin: 1px 0 0;
+	display: none
+}
+.ui-selectdrop-2 .popBankBox {
+	background-color: #fff;
+	border: 1px solid #00a8e7;
+	border-radius: 4px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+	cursor: default;
+	margin: 2px 0 0;
+	outline: 0 none;
+	position: absolute;
+	z-index: 21;
+	width: 510px;
+	max-height: 250px;
+	padding: 4px 0;
+	overflow-y: auto
+}
+.ui-selectdrop-2 i.logo105 {
+	background-position: center 0;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo102 {
+	background-position: center -160px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo103 {
+	background-position: center -320px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo308 {
+	background-position: center -480px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo104 {
+	background-position: center -40px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo301 {
+	background-position: center -200px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo403 {
+	background-position: center -360px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo303 {
+	background-position: center -520px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo305 {
+	background-position: center -80px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo309 {
+	background-position: center -240px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo302 {
+	background-position: center -400px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo310 {
+	background-position: center -560px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo307 {
+	background-position: center -120px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo306 {
+	background-position: center -280px;
+	display: block
+}
+
+.ui-selectdrop-2 i.logo304 {
+	background-position: center -440px;
+	display: block
+}
+
+.ui-selectdrop-2 .popBankBox .chooseOtherBank {
+	line-height: 30px;
+	text-align: right;
+	padding: 0 16px
+}
+.ui-selectdrop-2 {
+	
+}
+.ui-selectdrop-2 .s_select_bg {
+	border: 1px solid #2ea7e0;
+	border-radius: 3px;
+	color: #6A6A6A;
+	cursor: pointer;
+	outline: 0 none
+}
+
+.ui-selectdrop-2 .s_select_bg span.txt {
+	display: inline-block;
+	float: left;
+	height: 40px;
+	padding: 0px 0 0 10px;
+	width: 230px;
+	overflow: hidden
+}
+
+.ui-selectdrop-2 .s_select_bg span.txt70 {
+	display: inline-block;
+	float: left;
+	height: 24px;
+	padding: 8px 0 0 10px;
+	width: 80px;
+	overflow: hidden
+}
+
+.ui-selectdrop-2 .s_select_bg span.arrow {
+	background-color: #2ea7e0;
+	display: inline-block;
+	height: 100%;
+	width: 40px
+}
+
+.ui-selectdrop-2 .s_select_bg span.arrow em {
+	background: url(/p2pstock/static/images/rrd/borrow-icon.gif) no-repeat;
+	background-position: -3px -55px;
+	display: inline-block;
+	height: 10px;
+	left: 13px;
+	position: relative;
+	top: 18px;
+	top: 14px;
+	width: 16px
+}
+
+.ui-selectdrop-2 .popBox {
+	background-color: #fff;
+	border-radius: 4px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+	cursor: default;
+	outline: 0 none;
+	z-index: 999;
+	position: absolute;
+	border: 1px solid #00a8e7;
+	margin: 2px 0 0;
+	max-height: 164px;
+	overflow: auto
+}
+
+.ui-selectdrop-2 .popBox li {
+	padding: 7px 10px 7px 20px;
+	color: #666;
+	cursor: pointer;
+	margin: 0
+}
+
+.ui-selectdrop-2 .popBox .selected {
+	background: none repeat scroll 0 0 #00a8e7;
+	color: #FFF
+}
+.ui-selectdrop-2 .popCityBox {
+	background-color: #fff;
+	border: 1px solid #00a8e7;
+	border-radius: 4px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+	cursor: default;
+	margin: 2px 0 0;
+	outline: 0 none;
+	position: absolute;
+	z-index: 21;
+	width: 170px;
+	max-height: 250px;
+	padding: 4px 0;
+	overflow-y: auto
+}
+.ui-selectdrop-2 .s_select_bg span.txt150 {
+	display: inline-block;
+	float: left;
+	height: 24px;
+	padding: 8px 0 0 10px;
+	width: 100px;
+	overflow: hidden
+}
+.ui-selectdrop-2 .s_select_bg span.txt120 {
+	display: inline-block;
+	float: left;
+	height: 24px;
+	padding: 8px 0 0 10px;
+	width: 120px;
+	overflow: hidden
+}
+.errmsg{
+	color:red;
+	font-size:20px;
+}
+
+.hiddiv{
+	display: none;
+	width: 315px;
+	height: 180px;
+	border: 1px solid #333;
+	padding: 12px;
+	text-align: left;
+	line-height: 175%;
+	text-indent: 2em;
+	position: absolute;
+	background-color:#FFFACD;
+	word-wrap: break-word; 
+	word-break: normal; 
+	z-index:10;
+}

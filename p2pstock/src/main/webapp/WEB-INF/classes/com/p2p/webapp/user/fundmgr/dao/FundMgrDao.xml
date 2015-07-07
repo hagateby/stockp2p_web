@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.user.fundmgr.dao.FundMgrDao">
+
+	<!-- 查询客户账户信息 -->
+	<select id="queryUserAccount" parameterType="string" resultType="AccountInfo">
+		SELECT 
+			ACCOUT_NO,USER_ID,ACC_TYPE,ACC_STATUS,ACC_BALANCE,ACC_FREEZE,ACC_ENCHASH,CREATE_DATE,UPDATE_DATE,
+			(SELECT PARA_NAME FROM T_SYSTEM_PARA WHERE PARA_VALUES = ACC_TYPE AND PARA_TYPE = 'ACCTYP') AS ACC_TYPENAME,
+			(SELECT PARA_NAME FROM T_SYSTEM_PARA WHERE PARA_VALUES = ACC_STATUS AND PARA_TYPE = 'ACCSTATUS') AS ACCSTATUSENAME
+		FROM
+			T_ACCOUNT
+		WHERE
+			USER_ID = #{user_id}  AND ACC_STATUS = '0';
+	</select>
+	<!-- 增加个人账户明细 -->
+	<insert id="insertUserAccountDetail" parameterType="Map">
+		INSERT INTO
+			T_ACCOUNT_DETAIL(ACCOUT_NO,TRANSION_SEQ,PAYMENT_TYPE,AMOUNT,CREATE_DATE,UPDATE_DATE)
+		VALUES(#{accout_no},#{transion_seq},#{payment_type},#{amount},NOW(),NOW())
+	</insert>
+	<!--修改账户额度 -->
+	<update id="updateUserAccount" parameterType="Map">
+		UPDATE
+			T_ACCOUNT
+		SET
+			ACC_BALANCE = ACC_BALANCE + #{acount},
+			ACC_ENCHASH = ACC_ENCHASH + #{acount},
+			UPDATE_DATE = NOW()
+		WHERE
+			USER_ID = #{user_id}
+	</update>
+	<!-- 查询交易记录 -->
+	<select id="queryTranInfo" parameterType="Map" resultType="TranInfo">
+		SELECT 
+			TRAN_ID,TRANSION_SEQ,USER_ID,USER_NAME,TRANSION_TYPE,TRANSION_TYPENAME,
+			PAYMENT_TYPE,PAYMENT_TYPENAME,AMOUNT,UPDATE_DATE,INVT_PRODUCT_NAME
+		FROM
+			(SELECT 
+				T1.TRAN_ID,T1.TRANSION_SEQ,T1.USER_ID,T2.PHONE AS USER_NAME,
+				T1.TRANSION_TYPE,(SELECT PARA_NAME FROM T_SYSTEM_PARA WHERE PARA_VALUES = T1.TRANSION_TYPE AND PARA_TYPE = 'OPTTYP') AS TRANSION_TYPENAME,
+				T1.PAYMENT_TYPE,(SELECT PARA_NAME FROM T_SYSTEM_PARA WHERE PARA_VALUES = T1.PAYMENT_TYPE AND PARA_TYPE = 'PAYTYP') AS PAYMENT_TYPENAME,
+				T1.AMOUNT,T1.UPDATE_DATE,
+				(CASE 
+				 WHEN T1.TRANSION_TYPE = '1' THEN (SELECT DISTINCT T01.INVT_PRODUCT_NAME FROM T_INVEST T00,T_INVEST_PRDOUCT T01 WHERE T00.INVEST_PRDOUCT_ID = T01.INVT_PRODUCT_ID AND T00.TRANSION_SEQ = T1.TRANSION_SEQ)
+				 ELSE (SELECT DISTINCT T01.INVT_PRODUCT_NAME FROM T_PRODUCT_SETTLE T00,T_INVEST_PRDOUCT T01 WHERE T00.INVT_PRODUCT_ID = T01.INVT_PRODUCT_ID AND T00.PROFIT_SEQ = T1.TRANSION_SEQ)
+				 END)AS INVT_PRODUCT_NAME
+			FROM 
+				T_TRANSION T1
+				LEFT JOIN T_USER T2 ON T1.USER_ID = T2.USER_ID
+			)T
+		WHERE 
+			1 = 1 
+			<if test="user_name != null and user_name != ''">
+				AND USER_NAME = #{user_name}
+			</if>			
+			<if test="user_id != null and user_id != ''">
+				AND USER_ID = #{user_id}
+			</if>
+			<if test="payment_type != null and payment_type != ''">
+				AND PAYMENT_TYPE = #{payment_type}
+			</if>
+			<if test="invt_product_name != null and invt_product_name != ''">
+				AND INVT_PRODUCT_NAME LIKE #{invt_product_namelike} 
+			</if>
+			<if test="start_date != null and start_date != ''">
+				AND STR_TO_DATE(UPDATE_DATE,'%Y-%m-%d')  &gt;= #{start_date}
+			</if>
+			<if test="end_date != null and end_date != ''">
+				AND STR_TO_DATE(UPDATE_DATE,'%Y-%m-%d')   &lt;= #{end_date}
+			</if>
+		 ORDER BY TRAN_ID DESC
+	</select>
+	
+</mapper>

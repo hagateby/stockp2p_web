@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.user.login.dao.LoginDao">
+
+	<!-- 根据手机号码或者用户code查询用户 -->
+	<select id="queryUser" parameterType="string" resultType="UserInfo">
+		SELECT 
+			T1.USER_ID,T1.USER_CDE,T1.USER_STATUS,T1.USER_TYPE,T1.USER_NICKNAME,T1.USER_NAME,T1.PHONE,T1.MAIL,T1.CERTIF_TYPE,T1.CERTIF_NO,T1.CREATE_DATE,T1.UPDATE_DATE,T2.LOGIN_PWD,
+			T2.LOGIN_PWD,T2.TRAN_PWD,T2.ERR_COUNT,T2.SECTY_LEVEL
+		FROM
+			T_USER T1,T_SECTY_CTL T2
+		WHERE
+			T1.USER_ID = T2.USER_ID AND
+			(PHONE = #{pno} OR USER_CDE =  #{pno})
+	</select>
+	<!-- 登录失败，更新失败次数 -->
+	<update id="updateErrCt" parameterType="string">
+		UPDATE
+			 T_SECTY_CTL
+		SET
+			 ERR_COUNT = #{errcount},
+			 UPDATE_DATE = NOW()
+		WHERE 
+			PHONE = #{phoneno} OR USER_CDE =  #{phoneno}
+	</update>
+	<!-- 查询当天失败次数 -->
+	<select id="queryErrCt" parameterType="string" resultType="UserCtl">
+		SELECT
+			ERR_COUNT,UPDATE_DATE
+		FROM
+			 T_SECTY_CTL
+		WHERE 
+			(PHONE = #{pno} OR USER_CDE =  #{pno})
+	</select>
+	<!-- 更新用户状态 -->
+	<update id="updateUserStatus" parameterType="string">
+		UPDATE
+			T_USER
+		SET
+			USER_STATUS =#{status}
+		WHERE 
+			PHONE = #{phoneno} OR USER_CDE =  #{phoneno}
+	</update>
+	<!-- 查询用户操作日志-->
+	<select id="queryUserOptLog" parameterType="Map" resultType="OptLog" >
+		SELECT
+			CITY_ID,USER_ID,OPT_STATUS,OPT_DATE,OPT_TYPE,OPT_IP,CREATE_DATE,UPDATE_DATE
+		FROM
+			T_OPT_LOG
+		WHERE 
+			USER_ID = #{userid} 
+			AND STR_TO_DATE(UPDATE_DATE,'%Y-%m-%d') BETWEEN   STR_TO_DATE(#{sdate},'%Y-%m-%d') AND STR_TO_DATE(#{edate},'%Y-%m-%d')
+			AND OPT_TYPE = #{opttyp}
+			ORDER BY UPDATE_DATE DESC
+	</select>
+	<!-- 增加用户操作日志 -->
+	<insert id="insertUserOptLog" parameterType="OptLog">
+		INSERT INTO
+			T_OPT_LOG
+			(USER_ID,OPT_STATUS,OPT_DATE,OPT_TYPE,OPT_IP,CREATE_DATE,UPDATE_DATE)
+		VALUES
+			(#{user_id},#{opt_status},NOW(),#{opt_type},#{opt_ip},NOW(),NOW())
+	</insert>
+	<!-- 获取用户菜单信息 -->
+	<select id="queryUserMenu" parameterType="string" resultType="MenuInfo">
+		SELECT
+			DISTINCT T3.MENU_ID,T3.MENU_CODE,T3.MENU_NAME,T3.MENU_ORDER,T3.MENU_FLAG,
+			T3.MENU_PRVGFLAG,T3.MENU_PARENTCODE,T3.MENU_ACTION,T3.MENU_ICONCLASS
+		FROM
+			T_USER_PRVG T1
+			LEFT JOIN T_ROLE T2 ON T1.ROLE_CODE = T2.ROLE_CODE
+			LEFT JOIN T_ROLE_MENU T4 ON T2.ROLE_CODE = T4.ROLE_CODE
+			LEFT JOIN T_MENU T3 ON T4.MENU_CODE = T3.MENU_CODE
+		WHERE
+			T1.USER_ID = #{user_id}
+	</select>
+</mapper>

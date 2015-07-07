@@ -1,0 +1,85 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<context:property-placeholder location="/WEB-INF/classes/config.properties" />
+	<!-- c3p0 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">       
+	     <property name="driverClass" value="com.mysql.jdbc.Driver"/>       
+	     <property name="jdbcUrl" value="jdbc:mysql://123.57.205.91:3306/p2ptest"/> 
+	     <property name="user" value="root"/>
+	     <property name="password" value="ncl@1234"/>
+	     <property name="acquireIncrement" value="10"/>
+	     <property name="acquireRetryAttempts" value="10"/>
+	     <property name="acquireRetryDelay" value="1000"/>
+	     <property name="autoCommitOnClose" value="false"/>
+	     <property name="breakAfterAcquireFailure" value="false"/>
+	     <property name="checkoutTimeout" value="10000"/>
+	     <property name="idleConnectionTestPeriod" value="0"/>
+	     <property name="minPoolSize" value="5"/>
+	     <property name="maxPoolSize" value="3"/>
+	     <property name="initialPoolSize" value="20"/>
+	     <property name="maxIdleTime" value="10"/>
+	     <property name="numHelperThreads" value="3"/>
+	</bean>
+	<!--  weblogic JTA数据源 -->
+	<!--  
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>analyspool</value>
+		</property>
+		<property name="resourceRef">
+			<value>true</value>
+		</property>
+    </bean>
+    -->
+    <!-- 事务处理Bean -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	    <tx:attributes>
+	    	<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+	    	<tx:method name="query*" propagation="REQUIRED" read-only="true" />
+	    	<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+	      	<tx:method name="*" propagation="REQUIRED" read-only="false" rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+	  <aop:pointcut id="interceptorPointCuts" expression="execution(* com.p2p.webapp..*ServiceImpl.*(..))" />
+	  <aop:advisor advice-ref="txAdvice" pointcut-ref="interceptorPointCuts" />
+	</aop:config>
+	
+	<!-- SqlSessionFactoryBean-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+	</bean>
+	
+	<!-- 扫描指定路径下的所有映射器 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.p2p.webapp.**.dao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" /> 
+	</bean>
+	
+	<!-- 框架重定向aciton -->
+	<bean id="redirectAction" class="com.p2p.webapp.common.base.RedirectAction" scope="prototype">
+	</bean>
+	<import resource="com/p2p/webapp/user/service-user.xml"/>
+	<import resource="com/p2p/webapp/ajax/service-ajax.xml"/>
+	<import resource="com/p2p/webapp/system/service-system.xml"/>
+	<import resource="com/p2p/webapp/sysmgr/service-sysmgr.xml"/>
+	<import resource="com/p2p/webapp/invest/service-invest.xml"/>
+</beans>

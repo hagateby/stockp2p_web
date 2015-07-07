@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<decorators defaultdir="/WEB-INF/decorators">
+	<excludes>
+		<pattern>*/ueditor/*</pattern>
+		<pattern>*/ajax/*</pattern>
+		<pattern>*/My97DatePicker.htm</pattern> 
+		<pattern>/my/info/photo/updateImage*</pattern>
+		<pattern>/event/*</pattern>
+		
+		<pattern>*/flash/*</pattern>
+<!-- 	<pattern>*/law/*</pattern> -->
+	</excludes>
+
+ 
+	<decorator name="main" page="main.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+    
+    <!--  网站共通部分:顶部,导航,尾部 -->
+    <decorator name="main_top" page="/WEB-INF/views/include/page/main_top.jsp"></decorator>
+    <decorator name="main_header" page="/WEB-INF/views/include/page/main_header.jsp"></decorator>
+    <decorator name="main_footer" page="/WEB-INF/views/include/page/main_footer.jsp"></decorator>
+    
+</decorators>

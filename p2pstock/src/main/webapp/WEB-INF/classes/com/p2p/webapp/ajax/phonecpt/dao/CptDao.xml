@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.ajax.phonecpt.dao.CptDao">
+
+	<!-- 获取短信ID -->
+	<select id="queryLogId" parameterType="string" resultType="string">
+		SELECT IFNULL(MAX(MSG_ID)+1,0) FROM T_MSG_LOG;
+	</select>
+	
+	<!-- 插入短信日志表 -->
+	<insert id="insertMsgLog" parameterType="MsgLog">
+		INSERT INTO
+			T_MSG_LOG
+			(MSG_ID,MSG_BIZTYP,MSG_TYP,MSG_PHONENO,MSG_VALUE,SEND_TIME) 
+		VALUES 
+			(#{msg_id},#{msg_biztyp},#{msg_typ},#{msg_phoneno},#{msg_value},NOW())
+	</insert>
+	
+</mapper>

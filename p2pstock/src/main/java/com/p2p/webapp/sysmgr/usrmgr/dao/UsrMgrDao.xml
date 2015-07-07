@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.sysmgr.usrmgr.dao.UsrMgrDao">
+
+	<!-- 查询用户信息-->
+	<select id="queryUserInfo" parameterType="Map" resultType="UserInfo">
+		SELECT 
+			T1.PHONE,T1.USER_NAME,T1.USER_NICKNAME,T1.MAIL,T1.CERTIF_NO,
+			T1.CERTIF_TYPE,T1.RECOD_PHONE,T1.CREATE_DATE,T1.UPDATE_DATE,
+			T1.USER_TYPE,(SELECT PARA_NAME FROM T_SYSTEM_PARA WHERE PARA_VALUES = T1.USER_TYPE AND PARA_TYPE = 'USER_TYPE') AS USER_TYPENAME,
+			T1.USER_STATUS,(SELECT PARA_NAME FROM T_SYSTEM_PARA WHERE PARA_VALUES = T1.USER_STATUS AND PARA_TYPE = 'USER_STATUS') AS USER_STATUSNAME,
+			T2.ACC_BALANCE,T2.ACC_ENCHASH,T2.ACC_FREEZE,
+			T2.ACC_STATUS,(SELECT PARA_NAME FROM T_SYSTEM_PARA WHERE PARA_VALUES = T2.ACC_STATUS AND PARA_TYPE = 'ACC_STATUS') AS ACC_STATUSNAME,
+			T3.BANK_ACC_CODE,T3.BANK_NAME,T1.USER_ID
+		FROM
+			T_USER T1
+			LEFT JOIN T_ACCOUNT T2 ON T1.USER_ID = T2.USER_ID
+			LEFT JOIN T_BANK_ACC T3 ON T1.USER_ID = T3.USER_ID AND T3.DEFAULT_FLAG = '1'
+		WHERE 1 = 1 
+			<if test="user_id != null and user_id != ''">
+				AND T1.USER_ID = #{user_id}
+			</if>
+			<if test="phone != null and phone != ''">
+				AND T1.PHONE = #{phone}
+			</if>
+			<if test="user_name != null and user_name != ''">
+				AND T1.USER_NAME LIKE #{user_namelike} 
+			</if>
+	</select>
+	
+</mapper>

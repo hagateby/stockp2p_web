@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"  
+                        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">  
+<taglib>  
+ <tlib-version>1.0</tlib-version>  
+ <jsp-version>1.2</jsp-version>  
+ <short-name>page_tags</short-name>  
+ <uri>/tags/page_tags</uri>    
+ <display-name>"Pages Tags"</display-name>  
+ <tag>  
+    <name>pages</name>  
+    <tag-class>com.p2p.webapp.common.page.PageTag</tag-class>  
+    <attribute>  
+        <!-- Page信使 -->  
+        <name>page</name>  
+        <!-- 属性是否为必要的 -->  
+        <required>true</required>  
+        <!-- 属性值是否动态产生 -->  
+        <rtexprvalue>true</rtexprvalue>  
+        <!-- 属性的数据类型 -->  
+        <type>com.p2p.webapp.common.page.Page</type>  
+    </attribute>
+     <attribute>  
+        <!-- 提交表单ID -->  
+        <name>formid</name>  
+        <!-- 属性是否为必要的 -->  
+        <required>true</required>  
+        <!-- 属性值是否动态产生 -->  
+        <rtexprvalue>true</rtexprvalue>  
+    </attribute>
+     <attribute>  
+        <!-- 提交方式 form ajax -->  
+        <name>subtype</name>  
+        <!-- 属性是否为必要的 -->  
+        <required>false</required>  
+        <!-- 属性值是否动态产生 -->  
+        <rtexprvalue>true</rtexprvalue>  
+    </attribute>
+ </tag>  
+</taglib>  
