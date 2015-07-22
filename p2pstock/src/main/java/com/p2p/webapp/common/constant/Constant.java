@@ -17,11 +17,11 @@ public class Constant {
 	//手机验证码内容模板
 	private static String cptModulStr = "验证码#x，您正在进行注册，请勿向任何人提供您收到的短信验证码 【摩尔立方】";
 	//短信验证码有效时间
-	private static String cptActiveTime = "60";
+	private static String cptActiveTime = "300";
 	//短信验证码开关 0 真实 1 模拟 111111
-	private static String cptnoflag = "1";
+	private static String cptnoflag = "0";
 	//短信发送开关 0 真实发送 1 模拟发送
-	private static String cptflag = "1";
+	private static String cptflag = "0";
 	//短信发送地址
 	private static String cptsendadress = "http://dx.10659com.com:83/ApiService.asmx/Send";
 	//短信额度查询地址

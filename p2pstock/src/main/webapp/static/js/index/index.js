@@ -30,7 +30,7 @@ $(function($){
 	//ajax加载最新产品信息
 	ajaxCommonSubmit('newproductform', 'querynewproductok','/p2pstock/ajax/queryNewProduct_indexAction.action');
 	ajaxCommonSubmit('newinvestform', 'querynewinvestok','/p2pstock/ajax/queryNewInvest_indexAction.action');
-	
+	ajaxCommonSubmit('newinvestform', 'queryindexok','/p2pstock/ajax/init_indexAction.action');
 	//隐藏首页链接
 	$('#indexli').css('display','none');
 });
@@ -42,4 +42,7 @@ function querynewproductok(msg){
 }
 function querynewinvestok(msg){
 	$('#newinvestdiv').html(msg);
+}
+function queryindexok(msg){
+	$('#indexdiv').html(msg);
 }

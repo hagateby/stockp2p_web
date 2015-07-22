@@ -19,7 +19,7 @@
 			<result name="queryNewProductOk">/WEB-INF/views/common/main/newproduct.jsp</result>
 			<result name="queryNewInvestOk">/WEB-INF/views/common/main/newinvest.jsp</result>
 			<result name="issuequery">/WEB-INF/views/invest/investnomgr/invtprtlist.jsp</result>
-			
+			<result name="success">/WEB-INF/views/common/main/indextmp.jsp</result>
 		</action>
 	</package>
 

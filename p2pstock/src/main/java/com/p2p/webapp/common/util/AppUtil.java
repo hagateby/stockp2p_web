@@ -128,7 +128,7 @@ public class AppUtil {
 			}
 		}
 		BigDecimal   b   =   new   BigDecimal(f);  
-		BigDecimal   f1   =   b.setScale(num,BigDecimal.ROUND_HALF_EVEN);
+		BigDecimal   f1   =   b.setScale(num,BigDecimal.ROUND_HALF_UP);
 		return String.valueOf(f1);
 	}
 	//≈–∂œ «∑Ò÷–«©

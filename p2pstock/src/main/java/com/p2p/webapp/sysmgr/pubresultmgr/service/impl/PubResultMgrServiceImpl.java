@@ -126,7 +126,7 @@ public class PubResultMgrServiceImpl implements PubResultMgrService{
 			paramap.put("invest_product_id", settleVo.getInvt_product_id());
 			paramap.put("basic_product_id", baseid);
 			paramap.put("invest_status", Constant.getInvest_status_lovok());
-			List<InvestMoreInfo>  involist = issueMgrDao.selectInvestMoreInfoByib(paramap);
+			List<InvestMoreInfo>  involist = issueMgrDao.selectInvestMoreInfoByibSetl(paramap);
 			for(InvestMoreInfo invo:involist){
 				setvo.setInvt_product_name(invo.getInvt_product_name());
 				//投资产品id

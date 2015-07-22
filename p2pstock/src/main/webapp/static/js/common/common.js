@@ -1246,7 +1246,7 @@ $(function () {
 });
 
 //发送手机验证码控制
-var waitinit = 3;
+var waitinit = 45;
 var wait = waitinit;
 function time(btn,w1,w2) {
     if (wait == 0) {

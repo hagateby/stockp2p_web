@@ -30,6 +30,9 @@ public interface IssueMgrDao {
 	public InvestMoreInfo selectInvtMoreInfoById(String invest_product_id);
 	
 	public  List<InvestMoreInfo> selectInvestMoreInfoByib(Map paramap);
+	
+	public  List<InvestMoreInfo> selectInvestMoreInfoByibSetl(Map paramap);
+	
 	/*
 	 * 增加投资产品
 	 */
